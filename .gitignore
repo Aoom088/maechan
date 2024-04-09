@@ -6,3 +6,6 @@ tags
 node_modules
 **/public/dist/**
 build
+
+.idea
+.vscode

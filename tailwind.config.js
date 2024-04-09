@@ -1,5 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  presets: [
+    require('frappe-ui/src/utils/tailwind.config')
+  ],
+
   prefix: 'tw-',
   content: [
     "./maechan/templates/**/*.{html,js}",
@@ -9,6 +13,6 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require("daisyui")],
 }
 

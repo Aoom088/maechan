@@ -1,3 +1,4 @@
 Maechan
 maechan_core
 maechan_water
+maechan_license
