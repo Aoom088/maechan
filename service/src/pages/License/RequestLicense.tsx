@@ -32,6 +32,8 @@ function RequestLicense() {
 
     }
 
+    console.log(requestLicenses)
+
     useEffect(() => {
         console.log(data)
         if (data) {

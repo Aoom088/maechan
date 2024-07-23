@@ -49,6 +49,10 @@ function AppNavbar() {
 
     }
 
+    const backToDesk = () =>{
+        window.location.href = `http://maechandev.chaowdev.xyz:8000/`
+    }
+
     return (
         <Navbar isBordered maxWidth="xl" classNames={{ wrapper: "p-1 md:p-6" }}>
             <AppNavbarBrand />
@@ -68,7 +72,7 @@ function AppNavbar() {
 
                         <DropdownMenu aria-label="Static Actions">
                             <DropdownItem onClick={doLogout} key="logout">ออกจากระบบ</DropdownItem>
-
+                            <DropdownItem onClick={backToDesk} key="logout">กลับไปหน้าแรก</DropdownItem>
                         </DropdownMenu>
 
                     </Dropdown>

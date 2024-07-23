@@ -42,7 +42,7 @@
 </head>
 
 <body>
-    <div>
+    <div class="license-date">
         <div>
             {% set requestLicense = frappe.get_doc('RequestLicense', doc.requestLicense_id) %}
             <div class="tw-text-center license-header">แบบตรวจสถานที่{{requestLicense.license_type}}</div>
@@ -72,12 +72,12 @@
             </table>
         </div>
         <div>
-            <div>
+            <div class="tw-p-2">
                 <p>รายละเอียดแบบตรวจสอบ</p>
                 <div>
                     <table class="tw-w-full tw-table-fixed tw-text-left">
                         <thead>
-                            <tr >
+                            <tr>
                                 <th class="tw-border-2">ลำดับ</th>
                                 <th class="tw-border-2">หัวข้อ</th>
                                 <th class="tw-border-2">รายละเอียนด</th>
@@ -95,7 +95,7 @@
                     </table>
                 </div>
             </div>
-            <div class="tw-mt-auto tw-p-10">
+            <div class="tw-p-2">
                 <p>เกณฑ์พิจารณา</p>
                 <div>
                     <table class="tw-w-full tw-table-fixed tw-text-left tw-border-2">

@@ -57,7 +57,9 @@ export default function RequestLicenseCreate() {
     let { call } = useContext(FrappeContext) as FrappeConfig
 
     const [isLoading, setIsLoading] = useState(true)
+    const [invalid,setInvalid] = useState(true)
 
+    console.log(invalid)
 
     const loadUserProfile = async () => {
         setIsLoading(true)
@@ -209,6 +211,9 @@ export default function RequestLicenseCreate() {
             list.setFilterText(house?.text_display ?? '')
             if (!value) {
                 createFormValue.house_no = ''
+                setInvalid(true)
+            }else{
+                setInvalid(false)
             }
         }
         reloadProvinceAmphurDistrict(createFormValue, key)
@@ -425,6 +430,8 @@ export default function RequestLicenseCreate() {
                     onInputChange={list.setFilterText}
                     onSelectionChange={(key) => updateForm('house_no', key)}
                     selectedKey={createForm.house_no}
+                    errorMessage={invalid ? "Please fill in this field." : ""}
+                    isInvalid={invalid}
                 >
                     {(item) => (
                         <AutocompleteItem key={item.name} className="capitalize">
@@ -442,7 +449,7 @@ export default function RequestLicenseCreate() {
             </div>
 
             <div className="flex flex-row lg:w-[50%] text-xl mb-3">
-                <Button className="mr-3" color="primary" onClick={save}>บันทึกและต่อไป</Button>
+                <Button disabled={invalid} className={`mr-3`} color="primary" isDisabled={invalid} onClick={save}>บันทึกและต่อไป</Button>
                 <Button className="mr-3" onClick={() => { navigate("/licenseRequest") }} color="default">ยกเลิก</Button>
             </div>
         </div>

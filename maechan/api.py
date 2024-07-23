@@ -294,4 +294,15 @@ def app_register():
         return "Please check your email for verification"
 
 
+@frappe.whitelist(allow_guest=True)
+def get_licenseBusiness():
+    request = frappe.form_dict
+    # frappe.response['message'] = "Hello from code"
 
+    if 'license_applicant_title' in request:
+        LicenseDocType = frappe.qb.DocType('License')
+        q = (frappe.qb.from_(LicenseDocType)
+                .select("*")
+                .where(LicenseDocType.license_applicant_title == request['license_applicant_title']))
+        result = q.run(as_dict=True)
+        return result

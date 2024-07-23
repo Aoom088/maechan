@@ -15,10 +15,19 @@ def get_user_roles():
 @frappe.whitelist(allow_guest=True)
 def check_user_roles():
     user_roles = frappe.get_roles(frappe.session.user)
-    roles = ["Administrator"]
+    roles = "Administrator"
 
     if roles in user_roles:
         return True
     else:
         return False
     
+@frappe.whitelist(allow_guest=True)
+def check_thedsaban_user_roles():
+    user_roles = frappe.get_roles(frappe.session.user)
+    roles = "Thedsaban User"
+
+    if roles in user_roles:
+        return True
+    else:
+        return False
