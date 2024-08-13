@@ -21,9 +21,8 @@ class RequestStreetcutoutTax(Document):
 		expiration_date_requeststreetcutouttax: DF.Date | None
 		payment_requeststreetcutouttax: DF.AttachImage | None
 		streetcutout_count_requeststreetcutouttax: DF.Data | None
-		streetcutout_high_requeststreetcutouttax: DF.Data | None
-		streetcutout_location_table_requeststreetcutouttax: DF.Table[StreetcutoutLocationTable]
-		streetcutout_width_requeststreetcutouttax: DF.Data | None
+		streetcutout_location_table: DF.TableMultiSelect[StreetcutoutLocationTable]
+		streetcutout_size: DF.Literal["120x240 \u0e40\u0e0b\u0e19\u0e15\u0e34\u0e40\u0e21\u0e15\u0e23"]
 		user_name_requeststreetcutouttax: DF.Data
 	# end: auto-generated types
 
