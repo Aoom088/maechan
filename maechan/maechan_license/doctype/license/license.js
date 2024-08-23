@@ -80,6 +80,17 @@ async function update_province_amphure_district(frm) {
 
 }
 
+const update_current_license_type = (frm, doc) => {
+    current_license_type = doc
+    console.log(doc.fees)
+    let options = doc.fees.map(r => `${r.price_title} - ${r.price_rate} - ${r.price_fee}`)
+    console.log(options)
+    frm.set_df_property('license_fee_rate', 'options', options);
+    frm.refresh_field('license_fee_rate');
+
+
+}
+
 let do_clear = [true, true]
 
 frappe.ui.form.on('License', {
@@ -91,6 +102,14 @@ frappe.ui.form.on('License', {
         frm.refresh_field('approve_histories');
         update_province_amphure_district(frm)
 
+
+        if (frm.doc.license_type) {
+            frappe.db.get_doc("LicenseType", frm.doc.license_type)
+                .then(doc => {
+                    console.log('doc', doc)
+                    update_current_license_type(frm, doc)
+                })
+        }
     },
 
     async before_workflow_action(frm) {
@@ -273,7 +292,7 @@ frappe.ui.form.on('License', {
 
         frappe.db.get_doc("LicenseType", frm.doc.license_type)
             .then(r => {
-
+                update_current_license_type(frm, r)
                 r.details.forEach(x => {
                     console.log(x)
 
@@ -312,5 +331,25 @@ frappe.ui.form.on('License', {
         }) // 1st way
 
 
+    },
+    
+    license_fee_rate(frm) {
+        if(frm.doc.license_fee_rate) {
+            console.log('current_license_type',current_license_type)
+            price = 0
+            try {
+                let x= frm.doc.license_fee_rate.split(' - ')
+                console.log(x)
+                let fee_rate = x[2]
+                // console.log(fee_rate)
+                price = fee_rate
+                frm.set_value('license_fee',price)
+            } catch {
+                frm.set_value('license_fee',0)
+            }
+            
+        }
+        
     }
+
 })

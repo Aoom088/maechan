@@ -10,10 +10,9 @@
   "column_break_icju",
   "streetcutout_info_requeststreetcutouttax",
   "streetcutout_count_requeststreetcutouttax",
-  "streetcutout_width_requeststreetcutouttax",
-  "streetcutout_high_requeststreetcutouttax",
+  "streetcutout_size",
   "streetcutout_location_requeststreetcutouttax",
-  "streetcutout_location_table_requeststreetcutouttax",
+  "streetcutout_location_table",
   "status_tab",
   "approve_status_requeststreetcutouttax",
   "section_break_osur",
@@ -54,17 +53,6 @@
    "label": "\u0e08\u0e33\u0e19\u0e27\u0e19\u0e1b\u0e49\u0e32\u0e22"
   },
   {
-   "fieldname": "streetcutout_width_requeststreetcutouttax",
-   "fieldtype": "Data",
-   "label": "\u0e04\u0e27\u0e32\u0e21\u0e01\u0e27\u0e49\u0e32\u0e07\u0e02\u0e2d\u0e07\u0e1b\u0e49\u0e32\u0e22"
-  },
-  {
-   "fieldname": "streetcutout_high_requeststreetcutouttax",
-   "fieldtype": "Data",
-   "label": "\u0e04\u0e27\u0e32\u0e21\u0e2a\u0e39\u0e07\u0e02\u0e2d\u0e07\u0e1b\u0e49\u0e32\u0e22"
-  },
-  {
-   "depends_on": "eval:doc.approve_status_requeststreetcutouttax == '\u0e2d\u0e19\u0e38\u0e21\u0e31\u0e15\u0e34' || \r\ndoc.approve_status_requeststreetcutouttax == '\u0e22\u0e01\u0e40\u0e25\u0e34\u0e01' || \r\ndoc.approve_status_requeststreetcutouttax == '\u0e2b\u0e21\u0e14\u0e2d\u0e32\u0e22\u0e38'\r\n",
    "fieldname": "qrcode_tab",
    "fieldtype": "Tab Break",
    "label": "Qrcode"
@@ -75,7 +63,6 @@
    "label": "Qrcode"
   },
   {
-   "depends_on": "eval:doc.approve_status_requeststreetcutouttax == '\u0e23\u0e2d\u0e0a\u0e33\u0e23\u0e30\u0e40\u0e07\u0e34\u0e19' || \r\ndoc.approve_status_requeststreetcutouttax == '\u0e23\u0e30\u0e2b\u0e27\u0e48\u0e32\u0e07\u0e01\u0e32\u0e23\u0e15\u0e23\u0e27\u0e08\u0e2a\u0e2d\u0e1a' || \r\ndoc.approve_status_requeststreetcutouttax == '\u0e23\u0e2d\u0e2d\u0e19\u0e38\u0e21\u0e31\u0e15\u0e34' || \r\ndoc.approve_status_requeststreetcutouttax == '\u0e2d\u0e19\u0e38\u0e21\u0e31\u0e15\u0e34' || \r\ndoc.approve_status_requeststreetcutouttax == '\u0e22\u0e01\u0e40\u0e25\u0e34\u0e01' || \r\ndoc.approve_status_requeststreetcutouttax == '\u0e2b\u0e21\u0e14\u0e2d\u0e32\u0e22\u0e38'\r\n",
    "fieldname": "payment_tab",
    "fieldtype": "Tab Break",
    "label": "Payment",
@@ -102,12 +89,6 @@
    "label": "\u0e2a\u0e16\u0e32\u0e19\u0e17\u0e35\u0e48\u0e15\u0e31\u0e49\u0e07\u0e1b\u0e49\u0e32\u0e22"
   },
   {
-   "fieldname": "streetcutout_location_table_requeststreetcutouttax",
-   "fieldtype": "Table",
-   "label": "\u0e17\u0e35\u0e48\u0e15\u0e31\u0e49\u0e07\u0e1b\u0e49\u0e32\u0e22",
-   "options": "StreetcutoutLocationTable"
-  },
-  {
    "fieldname": "status_tab",
    "fieldtype": "Tab Break",
    "label": "Status"
@@ -125,7 +106,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "depends_on": "eval:doc.approve_status_requeststreetcutouttax == '\u0e2d\u0e19\u0e38\u0e21\u0e31\u0e15\u0e34' || \r\ndoc.approve_status_requeststreetcutouttax == '\u0e22\u0e01\u0e40\u0e25\u0e34\u0e01' || \r\ndoc.approve_status_requeststreetcutouttax == '\u0e2b\u0e21\u0e14\u0e2d\u0e32\u0e22\u0e38'\r\n",
    "fieldname": "expiration_date_requeststreetcutouttax",
    "fieldtype": "Date",
    "label": "\u0e27\u0e31\u0e19\u0e2b\u0e21\u0e14\u0e2d\u0e32\u0e22\u0e38"
@@ -139,12 +119,23 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "\u0e23\u0e32\u0e04\u0e32"
+  },
+  {
+   "fieldname": "streetcutout_location_table",
+   "fieldtype": "Table MultiSelect",
+   "options": "StreetcutoutLocationTable"
+  },
+  {
+   "fieldname": "streetcutout_size",
+   "fieldtype": "Select",
+   "label": "\u0e02\u0e19\u0e32\u0e14\u0e02\u0e2d\u0e07\u0e1b\u0e49\u0e32\u0e22",
+   "options": "120x240 \u0e40\u0e0b\u0e19\u0e15\u0e34\u0e40\u0e21\u0e15\u0e23"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-08-13 02:29:44.402237",
+ "modified": "2024-08-13 22:39:33.617373",
  "modified_by": "Administrator",
  "module": "maechan_streetcutout",
  "name": "RequestStreetcutoutTax",

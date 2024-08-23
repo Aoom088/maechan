@@ -14,11 +14,13 @@ class LicenseType(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 		from maechan.maechan_license.doctype.licensetypedetail.licensetypedetail import LicenseTypeDetail
+		from maechan.maechan_license.doctype.licensetypeprice.licensetypeprice import LicenseTypePrice
 
 		details: DF.Table[LicenseTypeDetail]
+		fees: DF.Table[LicenseTypePrice]
 		group: DF.Link
 		license_type: DF.Literal["\u0e43\u0e1a\u0e2d\u0e19\u0e38\u0e0d\u0e32\u0e15", "\u0e2b\u0e19\u0e31\u0e07\u0e2a\u0e37\u0e2d\u0e23\u0e31\u0e1a\u0e23\u0e2d\u0e07\u0e01\u0e32\u0e23\u0e41\u0e08\u0e49\u0e07"]
-		rule_year: DF.Data | None
+		rule_year: DF.Data
 		title: DF.Text
 	# end: auto-generated types
 

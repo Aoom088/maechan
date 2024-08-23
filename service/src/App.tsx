@@ -75,6 +75,31 @@ function App() {
 		)
 	}
 
+	const checkProfile = ({ children }: React.PropsWithChildren) => {
+		const [profile, setprofile] = useState(null);
+		let { call } = useContext(FrappeContext) as FrappeConfig;
+		const navigate = useNavigate()
+		
+	
+		async function checkUserRole() {
+			const getCheckProfile = await call.get('maechan.maechan.doctype.userprofile.userprofile.check_current_userprofile');
+			setprofile(getCheckProfile.message);
+		}
+	
+		useEffect(() => {
+			checkUserRole();
+			if (profile === false) {
+				navigate('/profile')
+			}
+		}, [profile]);
+	
+		return (
+			<main>
+				{profile && children}
+			</main>
+		);
+	}
+
 
 	
 	return (

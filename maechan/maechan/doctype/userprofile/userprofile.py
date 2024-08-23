@@ -73,3 +73,14 @@ def update_or_create_userprofile():
     profile.save()
 
     return profile
+
+@frappe.whitelist()
+def check_current_userprofile():
+    profile = frappe.db.get("UserProfile", {
+        "name": frappe.session.user
+    })
+
+    if profile :
+        return True
+    else :
+        return False

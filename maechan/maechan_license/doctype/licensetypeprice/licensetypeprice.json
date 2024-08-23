@@ -1,0 +1,51 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "hash",
+ "creation": "2024-08-01 13:00:58.543494",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "price_title",
+  "price_rate",
+  "price_fee"
+ ],
+ "fields": [
+  {
+   "fieldname": "price_title",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "\u0e23\u0e32\u0e22\u0e25\u0e30\u0e40\u0e2d\u0e35\u0e22\u0e14",
+   "reqd": 1
+  },
+  {
+   "fieldname": "price_rate",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "\u0e2d\u0e31\u0e15\u0e23\u0e32",
+   "reqd": 1
+  },
+  {
+   "fieldname": "price_fee",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "\u0e2d\u0e31\u0e15\u0e23\u0e32\u0e04\u0e48\u0e32\u0e18\u0e23\u0e23\u0e21\u0e40\u0e19\u0e35\u0e22\u0e21",
+   "non_negative": 1,
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-08-01 13:04:01.087535",
+ "modified_by": "Administrator",
+ "module": "maechan_license",
+ "name": "LicenseTypePrice",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

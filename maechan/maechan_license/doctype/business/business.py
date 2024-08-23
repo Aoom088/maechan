@@ -102,3 +102,28 @@ def update_business():
 	business.save()
 
 	return business
+
+
+@frappe.whitelist()
+def check_businesses():
+
+	businessDoctype = frappe.qb.DocType("Business")
+	houseDoctype = frappe.qb.DocType("House")
+
+	query = (
+		frappe.qb.from_(businessDoctype).where(businessDoctype.manager == frappe.session.user)
+		.join(houseDoctype).on(houseDoctype.name == businessDoctype.business_address)
+		.select(
+				businessDoctype.name,businessDoctype.manager,businessDoctype.business_name,businessDoctype.business_address,businessDoctype.tel,
+				houseDoctype.text_display.as_('business_address_text_display')
+			)
+	)
+
+	result = query.run(as_dict=True)
+
+	if result :
+		return True
+	else :
+		return False
+
+	# return result
