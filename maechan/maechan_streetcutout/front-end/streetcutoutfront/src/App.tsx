@@ -2,9 +2,9 @@ import { FrappeProvider, useFrappeAuth, FrappeConfig, FrappeContext } from 'frap
 import { NextUIProvider } from "@nextui-org/react"
 import React, { useEffect,useContext, useState }  from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+
 import Login from './pages/login';
 import Register from './pages/xregister';
-import Home from './pages/home';
 import AlertProvider from './providers/AlertProvider';
 import AuthProvider from './providers/AuthProvider'; 
 import MainPage from './pages/Mainpage';  
@@ -79,7 +79,7 @@ function App() {
 								<Routes>
 									<Route path='/login' element={<Login />} />
 									<Route path='/register' element={<Register />} />
-									<Route path="/" element={<LoginGuard><CheckThedsabanUser><Home/></CheckThedsabanUser></LoginGuard>} >
+									<Route path="/" element={<LoginGuard><CheckThedsabanUser><MainPage/></CheckThedsabanUser></LoginGuard>} >
 										<Route index element={<Dashboard />} />
 									</Route>
 								</Routes>

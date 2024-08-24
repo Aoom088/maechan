@@ -100,7 +100,7 @@ function MainPage() {
             <div className="flex px-1 lg:px-0 lg:justify-center w-full">
                 <div className="flex flex-col w-full lg:flex-row lg:w-[1280px] lg:px-6 mt-3">
                     <div className="mb-3 lg:mb-0 lg:w-[280px] w-full">
-                        <SidebarMenu/>
+                        <SidebarMenu/>             
                     </div>
                     <div className="lg:pl-3 lg:ml-3 p-3 lg:w-full border-1 lg:min-h-[600px] rounded-md">
                         <Outlet />

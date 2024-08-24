@@ -39,11 +39,12 @@ function AppSidebarButton(props: PropsWithChildren<ButtonProps & {exact? : boole
             className={_className}
             onClick={_onClick}
             startContent={_startContent}
-
+            style={{ backgroundColor: isActive ? 'rgb(59, 130, 246)' : 'transparent' }}
         >
             {children}
         </Button>
-    )
+    );
+    
 }
 
 export function SidebarMenu() {
@@ -76,7 +77,8 @@ export function SidebarMenu() {
     return (
         <ul>
             <li>
-                <AppSidebarButton href="/" startContent={<FaHome />}>หน้าหลัก</AppSidebarButton>
+                <AppSidebarButton href="/" startContent={<FaHome />}>
+                    หน้าหลัก</AppSidebarButton>
             </li>
             {profile && (
                 <>
