@@ -39,7 +39,6 @@ function AppSidebarButton(props: PropsWithChildren<ButtonProps & {exact? : boole
             className={_className}
             onClick={_onClick}
             startContent={_startContent}
-            style={{ backgroundColor: isActive ? 'rgb(59, 130, 246)' : 'transparent' }}
         >
             {children}
         </Button>
@@ -95,7 +94,7 @@ export function SidebarMenu() {
                             </AppSidebarButton>
                         </li>
                         <li>
-                            <AppSidebarButton exact={false} href="/pageLicense" startContent={<TbLicense />}>
+                            <AppSidebarButton exact={false} href="/pageStreetcutout" startContent={<TbLicense />}>
                                 ใบอนุญาต
                             </AppSidebarButton>
                         </li>

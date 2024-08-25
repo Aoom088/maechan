@@ -18,7 +18,6 @@ class StreetcutoutLocationTable(Document):
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
-		streetcutout_count_streetcutoutlocationtable: DF.Data | None
 	# end: auto-generated types
 
 	pass

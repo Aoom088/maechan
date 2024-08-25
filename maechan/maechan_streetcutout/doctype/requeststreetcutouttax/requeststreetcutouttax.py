@@ -2,7 +2,12 @@
 # For license information, please see license.txt
 
 # import frappe
+import frappe
+import frappe.utils
 from frappe.model.document import Document
+
+from maechan.maechan_streetcutout.doctype.streetcutoutlocationtable.streetcutoutlocationtable import StreetcutoutLocationTable
+
 
 
 class RequestStreetcutoutTax(Document):
@@ -27,3 +32,20 @@ class RequestStreetcutoutTax(Document):
 	# end: auto-generated types
 
 	pass
+
+@frappe.whitelist()
+def load_requeststreetcutout():
+
+    query = """
+        select 
+            tabRequestStreetcutoutTax.*
+        from tabRequestStreetcutoutTax
+        where (tabRequestStreetcutoutTax.owner = %(user)s or tabRequestStreetcutoutTax.manage_user = %(user)s)
+    """
+
+    result = frappe.db.sql(query,{
+        'user' : frappe.session.user
+    },as_dict=True)
+
+    frappe.response['user'] = frappe.session.user
+    return result

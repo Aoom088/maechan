@@ -11,8 +11,9 @@
   "streetcutout_info_requeststreetcutouttax",
   "streetcutout_count_requeststreetcutouttax",
   "streetcutout_size",
+  "streetcutout_img",
   "streetcutout_location_requeststreetcutouttax",
-  "streetcutout_location_table",
+  "streetcutout_location",
   "status_tab",
   "approve_status_requeststreetcutouttax",
   "section_break_osur",
@@ -121,21 +122,26 @@
    "label": "\u0e23\u0e32\u0e04\u0e32"
   },
   {
-   "fieldname": "streetcutout_location_table",
-   "fieldtype": "Table MultiSelect",
-   "options": "StreetcutoutLocationTable"
-  },
-  {
    "fieldname": "streetcutout_size",
    "fieldtype": "Select",
    "label": "\u0e02\u0e19\u0e32\u0e14\u0e02\u0e2d\u0e07\u0e1b\u0e49\u0e32\u0e22",
    "options": "120x240 \u0e40\u0e0b\u0e19\u0e15\u0e34\u0e40\u0e21\u0e15\u0e23"
+  },
+  {
+   "fieldname": "streetcutout_location",
+   "fieldtype": "Table MultiSelect",
+   "options": "StreetcutoutLocation"
+  },
+  {
+   "fieldname": "streetcutout_img",
+   "fieldtype": "Attach Image",
+   "label": "\u0e23\u0e39\u0e1b\u0e15\u0e31\u0e27\u0e2d\u0e22\u0e48\u0e32\u0e07\u0e1b\u0e49\u0e32\u0e22"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-08-13 22:39:33.617373",
+ "modified": "2024-08-25 18:53:44.816288",
  "modified_by": "Administrator",
  "module": "maechan_streetcutout",
  "name": "RequestStreetcutoutTax",

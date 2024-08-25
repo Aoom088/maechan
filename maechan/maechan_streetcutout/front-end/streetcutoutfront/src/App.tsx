@@ -8,9 +8,10 @@ import Register from './pages/xregister';
 import AlertProvider from './providers/AlertProvider';
 import AuthProvider from './providers/AuthProvider'; 
 import MainPage from './pages/Mainpage';  
-import Dashboard from './pages/Dashboard';  
-import LicenseDashboard from './pages/LicenseDashboard';
-
+import Dashboard from './pages/Dashboard';
+import ProfilePage from './pages/Personal/ProfilePage';
+import StreetcutoutIndex from './pages/Streetcutout/StreetcutoutIndex';
+import StreetcutoutView from './pages/Streetcutout/StreetcutoutView';
 
 function App() {
 
@@ -81,6 +82,15 @@ function App() {
 									<Route path='/register' element={<Register />} />
 									<Route path="/" element={<LoginGuard><CheckThedsabanUser><MainPage/></CheckThedsabanUser></LoginGuard>} >
 										<Route index element={<Dashboard />} />
+
+										<Route path="pageStreetcutout">
+											<Route index element={<StreetcutoutIndex />} />
+										</Route>
+
+										<Route path="profile">
+											<Route index element={<ProfilePage />} />
+										</Route>
+
 									</Route>
 								</Routes>
 							</BrowserRouter>
