@@ -6,9 +6,6 @@ import frappe
 import frappe.utils
 from frappe.model.document import Document
 
-from maechan.maechan_streetcutout.doctype.streetcutoutlocationtable.streetcutoutlocationtable import StreetcutoutLocationTable
-
-
 
 class RequestStreetcutoutTax(Document):
 	# begin: auto-generated types
@@ -31,21 +28,22 @@ class RequestStreetcutoutTax(Document):
 		user_name_requeststreetcutouttax: DF.Data
 	# end: auto-generated types
 
-	pass
-
 @frappe.whitelist()
-def load_requeststreetcutout():
-
+def load_requeststreetcutouttax():
     query = """
         select 
             tabRequestStreetcutoutTax.*
         from tabRequestStreetcutoutTax
-        where (tabRequestStreetcutoutTax.owner = %(user)s or tabRequestStreetcutoutTax.manage_user = %(user)s)
     """
 
-    result = frappe.db.sql(query,{
-        'user' : frappe.session.user
-    },as_dict=True)
+    result = frappe.db.sql(query, as_dict=True)  
+    return {'data': result}  
 
-    frappe.response['user'] = frappe.session.user
-    return result
+@frappe.whitelist()
+def get_by_name (name=None) :
+    if name :
+        return frappe.get_doc("RequestStreetcutoutTax",name)
+    else :
+        frappe.response['http_status_code'] = 400
+        frappe.response['error'] = "name value is none"
+        return "error"

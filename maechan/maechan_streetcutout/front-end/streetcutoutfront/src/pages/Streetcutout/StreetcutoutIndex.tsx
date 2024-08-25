@@ -17,9 +17,8 @@ export default function StreetcutoutIndex() {
     const { data, error, isLoading, mutate } = useSWR(
         "maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.load_requeststreetcutouttax",
         fetcher
-    );
+    )
 
-    
     const topContent = useMemo(() => {
         return (
             <div className="flex flex-row justify-between gap-3">
@@ -29,80 +28,6 @@ export default function StreetcutoutIndex() {
             </div>
         )
     }, [])
-
-    const RenewStreetcutout = ({ doc }: { doc: any }) => {
-
-        const [renewLoading, setRenewLoading] = useState(false)
-        const [isRenew, setIsRenew] = useState(false)
-
-        const { call } = useContext(FrappeContext) as FrappeConfig
-
-        {/*
-        useEffect(() => {
-            setIsRenew(!!doc.renew_request)
-        }, doc)
-
-        const createRenew = () => {
-            setRenewLoading(true)
-            call.post("maechan.maechan_license.doctype.requestlicense.requestlicense.renew_license", { //เเก้
-                license: doc.name
-            }).then(r => {
-                mutate().then(r2 => {
-                    setRenewLoading(false)
-                })
-
-            })
-
-        }
-
-        if (isRenew) {
-            if (doc.renew_workflow_state == "สร้าง") {
-                return (
-                    <Tooltip placement="top" content="แก้ไขใบคำร้องขอต่อใบอนุญาต" aria-label="แก้ไขใบคำร้องขอต่อใบอนุญาต" >
-                        <span
-                            onClick={() => { navigate(`/licenseRequest/${doc.renew_request}/edit`) }} //เเก้
-                            className="text-lg  cursor-pointer active:opacity-50">
-                            <FaMagnifyingGlassArrowRight />
-                        </span>
-                    </Tooltip>
-                )
-            } else {
-                return (
-                    <Tooltip placement="top" content="ดูใบคำร้องขอต่อใบอนุญาต" aria-label="ดูใบคำร้องขอต่อใบอนุญาต" >
-                        <span
-                            onClick={() => { navigate(`/licenseRequest/${doc.renew_request}/view`) }} //เเก้
-                            className="text-lg  cursor-pointer active:opacity-50">
-                            <FaMagnifyingGlass />
-                        </span>
-                    </Tooltip>
-                )
-            }
-
-        }
-
-        if (renewLoading) {
-
-            return (
-                <Spinner size="sm" />
-            )
-
-        } else {
-
-            return (
-                <Tooltip placement="top" content="สร้างคำร้องต่อใบอนุญาต" aria-label="สร้างคำร้องต่อใบอนุญาต" >
-                    <span
-                        onClick={() => { createRenew() }}
-                        className="text-lg text-green-500 cursor-pointer active:opacity-50">
-                        <FaRotate />
-                    </span>
-                </Tooltip>
-            )
-        }
-        */}
-
-
-
-    }
 
     return (<div className="flex flex-col">
         <Breadcrumbs className="mb-3">
@@ -120,60 +45,39 @@ export default function StreetcutoutIndex() {
                 aria-label="รายการคำร้องใบอนุญาต"
             >
                 <TableHeader>
-                    <TableColumn className="w-4/12">เลขที่คำร้อง</TableColumn> 
+                    <TableColumn className="w-4/12">เลขที่คำร้อง</TableColumn>
                     <TableColumn>สถาณะ</TableColumn>
                     <TableColumn>จำนวน</TableColumn>
                     <TableColumn>ราคา</TableColumn>
                     <TableColumn className="text-center">การกระทำ</TableColumn>
                 </TableHeader>
-                
+
                 {isLoading ? (
-                    <TableBody emptyContent={"ไม่มีข้อมูล"}>{[]}</TableBody>)
-                    : (
-                        <TableBody>
-                            {
-                                data.message.map((x: any) => (
-                                    <TableRow key={x.name}>
-                                        <TableCell>
-                                            <div>
-                                                <div className="font-bold">{x.license_applicant_title ?? x.license_applicant}</div>
-                                                <div>{x.licensetype_title}</div>
-                                            </div>
-                                        </TableCell>
-                                        
-                                        <TableCell>{x.approve_status_requeststreetcutouttax}</TableCell>
-                                        <TableCell>{x.streetcutout_count_requeststreetcutouttax}</TableCell>
-                                        <TableCell>{x.cost_requeststreetcutouttax}</TableCell>
+                    <TableBody emptyContent={"ไม่มีข้อมูล"}>{[]}</TableBody>
+                ) : (
+                    <TableBody>
+                        {
+                            data?.message.data.map((x: any) => (
+                                <TableRow key={x.name}>
+                                    <TableCell>
+                                        <div>
+                                            <div className="font-bold">{x.name}</div>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell>{x.approve_status_requeststreetcutouttax}</TableCell>
+                                    <TableCell>{x.streetcutout_count_requeststreetcutouttax}</TableCell>
+                                    <TableCell>{x.cost_requeststreetcutouttax}</TableCell>
+                                    <TableCell>
+                                        <div className="flex flex-row gap-1 justify-center">
+                                            TEST
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
 
-                                        {/*
-                                        <TableCell>
-                                            
-                                            <div className="flex flex-row gap-1 justify-center">
-                                                <Tooltip placement="top" content="ใบอนุญาต" aria-label="ใบอนุญาติ" >
-                                                    <span
-                                                        onClick={() => { navigate(`/pageLicense/${x.name}/view`) }}
-                                                        className="text-lg text-violet-600 cursor-pointer active:opacity-50">
-                                                        <FaFileDownload />
-                                                    </span>
-                                                </Tooltip>
-
-                                                {
-                                                    x.workflow_state == 'Expired' || x.workflow_state == 'Approved' ? (
-                                                        <RenewLicense doc={x} />
-                                                    ) : (null)
-                                                }
-                                            </div>
-                                            
-                                        </TableCell>
-                                        */}
-
-                                    </TableRow>
-                                ))
-                            }
-
-                        </TableBody>
-
-                    )
+                            ))
+                        }
+                    </TableBody>
+                )
                 }
 
             </Table>
