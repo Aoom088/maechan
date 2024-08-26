@@ -13,6 +13,12 @@ import ProfilePage from './pages/Personal/ProfilePage';
 import StreetcutoutIndex from './pages/Streetcutout/StreetcutoutIndex';
 import StreetcutoutView from './pages/Streetcutout/StreetcutoutView';
 
+import RequestLicense from './pages/Streetcutout/RequestLicense';
+import RequestLicenseCreate from './pages/Streetcutout/RequestLicenseCreate';
+import RequestLicenseEdit from './pages/Streetcutout/RequestLicenseEdit';
+import RequestLicenseView from './pages/Streetcutout/RequestLicenseView';
+import RequestLicensePayment from './pages/Streetcutout/RequestLicensePayment';
+
 function App() {
 
 	const CheckThedsabanUser = ({ children }: React.PropsWithChildren) => {
@@ -82,6 +88,12 @@ function App() {
 									<Route path='/register' element={<Register />} />
 									<Route path="/" element={<LoginGuard><CheckThedsabanUser><MainPage/></CheckThedsabanUser></LoginGuard>} >
 										<Route index element={<Dashboard />} />
+
+										<Route path="StreetcutoutRequest">
+											<Route index element={<RequestLicense/>} />
+
+
+										</Route>
 
 										<Route path="pageStreetcutout">
 											<Route index element={<StreetcutoutIndex />} />

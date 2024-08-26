@@ -15,7 +15,7 @@ export default function StreetcutoutIndex() {
     const fetcher = (url: any) => call.post(url).then((res) => res);
 
     const { data, error, isLoading, mutate } = useSWR(
-        "maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.load_requeststreetcutouttax",
+        "maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.load_streetcutouttax",
         fetcher
     )
 

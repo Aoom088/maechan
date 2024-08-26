@@ -377,3 +377,16 @@ def renew_license():
     else:
         frappe.response['http_status_code'] = 400
         return "License not found."
+
+
+@frappe.whitelist()
+def check_requst_license():
+    user = frappe.session.user
+    result = frappe.db.get_all("RequestLicense", filters={
+        'owner': user
+    })
+    if result:
+        return True
+    else :
+        return False
+    

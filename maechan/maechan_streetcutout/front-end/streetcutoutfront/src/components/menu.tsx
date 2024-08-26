@@ -6,7 +6,7 @@ import { FaFileLines, FaUserPen } from "react-icons/fa6"
 import { TbLicense } from "react-icons/tb"
 import { useLocation, useNavigate } from "react-router-dom"
 
-function AppSidebarButton(props: PropsWithChildren<ButtonProps & {exact? : boolean}>) {
+function AppSidebarButton(props: PropsWithChildren<ButtonProps & { exact?: boolean }>) {
 
     const { size, className, children } = props
     const location = useLocation()
@@ -43,28 +43,28 @@ function AppSidebarButton(props: PropsWithChildren<ButtonProps & {exact? : boole
             {children}
         </Button>
     );
-    
+
 }
 
 export function SidebarMenu() {
-		const [profile, setProfile] = useState(null);
-		let { call } = useContext(FrappeContext) as FrappeConfig;
-		// const navigate = useNavigate()
-		
-	
-		async function checkProfile() {
-			const getCheckProfile = await call.get('maechan.maechan.doctype.userprofile.userprofile.check_current_userprofile');
-			setProfile(getCheckProfile.message);
-		}
+    const [profile, setProfile] = useState(null);
+    let { call } = useContext(FrappeContext) as FrappeConfig;
+    // const navigate = useNavigate()
 
-		useEffect(() => {
-			checkProfile();
-			// if (profile === false) {
-			// 	navigate('/profile')
-			// }
-		}, [profile]);
-	
-    
+
+    async function checkProfile() {
+        const getCheckProfile = await call.get('maechan.maechan.doctype.userprofile.userprofile.check_current_userprofile');
+        setProfile(getCheckProfile.message);
+    }
+
+    useEffect(() => {
+        checkProfile();
+        // if (profile === false) {
+        // 	navigate('/profile')
+        // }
+    }, [profile]);
+
+
     return (
         <ul>
             <li>
@@ -72,12 +72,19 @@ export function SidebarMenu() {
                     หน้าหลัก</AppSidebarButton>
             </li>
             {profile && (
-                <li>
-                    <AppSidebarButton exact={false} href="/pageStreetcutout" startContent={<TbLicense />}>
-                        ใบอนุญาต
-                    </AppSidebarButton>
-                </li>
-            ) }
+                <>
+                    <li>
+                        <AppSidebarButton exact={false} href="/StreetcutoutRequest" startContent={<FaFileLines />}>
+                            คำร้องขอใบอนุญาต
+                        </AppSidebarButton>
+                    </li>
+                    <li>
+                        <AppSidebarButton exact={false} href="/pageStreetcutout" startContent={<TbLicense />}>
+                            ใบอนุญาต
+                        </AppSidebarButton>
+                    </li>
+                </>
+            )}
 
 
             <li>
