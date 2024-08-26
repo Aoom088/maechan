@@ -12,8 +12,8 @@ import Dashboard from './pages/Dashboard';
 import ProfilePage from './pages/Personal/ProfilePage';
 import StreetcutoutIndex from './pages/Streetcutout/StreetcutoutIndex';
 import StreetcutoutView from './pages/Streetcutout/StreetcutoutView';
+import Requeststreetcutouttax from './pages/Streetcutout/Requeststreetcutouttax';
 
-import RequestLicense from './pages/Streetcutout/RequestLicense';
 import RequestLicenseCreate from './pages/Streetcutout/RequestLicenseCreate';
 import RequestLicenseEdit from './pages/Streetcutout/RequestLicenseEdit';
 import RequestLicenseView from './pages/Streetcutout/RequestLicenseView';
@@ -90,7 +90,7 @@ function App() {
 										<Route index element={<Dashboard />} />
 
 										<Route path="StreetcutoutRequest">
-											<Route index element={<RequestLicense/>} />
+											<Route index element={<Requeststreetcutouttax/>} />
 
 
 										</Route>

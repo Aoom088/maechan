@@ -1,5 +1,5 @@
 export type Doctype = {
-    docstatus : number;
+    docstatus: number;
     name: string;
 }
 
@@ -133,6 +133,18 @@ export type IRequestLicenseType = Doctype & {
 
 }
 
+export type IRequestStreetcutout = Doctype & {
+    approve_status_requeststreetcutouttax:string;
+    amended_from: string;
+    cost_requeststreetcutouttax: number;
+    expiration_date_requeststreetcutouttax: Date;
+    payment_requeststreetcutouttax: string;
+    streetcutout_count_requeststreetcutouttax: number;
+    streetcutout_location_table: string;
+    streetcutout_size: string;
+    user_name_requeststreetcutouttax: string;
+}
+
 export type IRequestLicense = Doctype & {
     amended_from: string;
     applicant_age: string | number;
@@ -158,7 +170,7 @@ export type IRequestLicense = Doctype & {
     checklist_date: Date
     checklist_extra: ICheckListDetail[]
     checklist_list: ICheckList[]
-    date: Date|string;
+    date: Date | string;
     house_no: string;
     house_tel: string;
     license_type: string;
@@ -166,22 +178,22 @@ export type IRequestLicense = Doctype & {
     request_status: "รอชำระเงิน" | "\u0e2a\u0e23\u0e49\u0e32\u0e07" | "\u0e23\u0e2d\u0e15\u0e23\u0e27\u0e08\u0e2a\u0e2d\u0e1a\u0e40\u0e2d\u0e01\u0e2a\u0e32\u0e23" | "\u0e40\u0e2d\u0e01\u0e2a\u0e32\u0e23\u0e44\u0e21\u0e48\u0e04\u0e23\u0e1a" | "\u0e41\u0e01\u0e49\u0e44\u0e02" | "\u0e23\u0e2d\u0e15\u0e23\u0e27\u0e08\u0e2a\u0e16\u0e32\u0e19\u0e17\u0e35\u0e48" | "\u0e44\u0e21\u0e48\u0e1c\u0e48\u0e32\u0e19" | "\u0e23\u0e2d\u0e2d\u0e2d\u0e01\u0e43\u0e1a\u0e2d\u0e19\u0e38\u0e0d\u0e32\u0e15" | "\u0e04\u0e33\u0e23\u0e49\u0e2d\u0e07\u0e2a\u0e33\u0e40\u0e23\u0e47\u0e08" | "\u0e22\u0e01\u0e40\u0e25\u0e34\u0e01";
     request_type: string;
     workflow_state: string;
-    business : string | IBusiness
+    business: string | IBusiness
 
     license_applicant: string
     license_applicant_type: "\u0e1a\u0e38\u0e04\u0e04\u0e25\u0e18\u0e23\u0e23\u0e21\u0e14\u0e32" | "\u0e19\u0e34\u0e15\u0e34\u0e1a\u0e38\u0e04\u0e04\u0e25"
 
-    license_fee : number;
-    payment_attachment : string;
-    comment : string;
-    
+    license_fee: number;
+    payment_attachment: string;
+    comment: string;
+
 
 }
 
 export type ILicenseType = Doctype & {
-    license_type : "หนังสือรับรองการแจ้ง" | "ใบอนุญาต"
-    title : string;
-    rule_year : string;
+    license_type: "หนังสือรับรองการแจ้ง" | "ใบอนุญาต"
+    title: string;
+    rule_year: string;
 
 }
 
@@ -190,7 +202,7 @@ export type IRequestLicenseInspect = Doctype & {
     checklist_date: string | Date;
     checklist_extra: ICheckListDetail[]
     checklist_list: ICheckList[]
-    checklist_result: "-"| "\u0e1c\u0e48\u0e32\u0e19"| "\u0e44\u0e21\u0e48\u0e1c\u0e48\u0e32\u0e19"
+    checklist_result: "-" | "\u0e1c\u0e48\u0e32\u0e19" | "\u0e44\u0e21\u0e48\u0e1c\u0e48\u0e32\u0e19"
     request_license: string | IRequestLicense
 }
 

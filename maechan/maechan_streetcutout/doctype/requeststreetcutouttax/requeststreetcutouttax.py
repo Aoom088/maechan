@@ -82,24 +82,20 @@ def load_request_StreetcutoutTax():
     return requestStreetcutoutTaxDoc
 
 @frappe.whitelist()
-def load_request_StreetcutoutTaxs():
+def load_request_streetcutouttaxs():
     user = frappe.session.user
-    result = frappe.db.get_all("RequestStreetcutoutTax", filters={
-        'owner': user
-    })
-
-    docs: List[RequestStreetcutoutTax] = [frappe.get_doc(
-        'RequestStreetcutoutTax', x.name) for x in result]  # type: ignore
-
-    streetcutout = {}
-    for (i, x) in enumerate(docs):
-        streetcutout[x.name] = (frappe.db.get_all("Streetcutout", fields="*", filters={
-             
-        }))
+    
+    result = frappe.db.get_all("RequestStreetcutoutTax", filters={})
+    
+    docs = [frappe.get_doc('RequestStreetcutoutTax', x.name) for x in result]  # type: ignore
+    
+    streetcutout = {
+        x.name: frappe.db.get_all("RequestStreetcutoutTax", fields="*", filters={'name': x.name}) for x in docs
+    }
 
     frappe.response['streetcutout'] = streetcutout
-
-    return docs
+    
+    return {'data': docs}  
 
 
 
