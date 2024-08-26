@@ -48,10 +48,8 @@ function AppSidebarButton(props: PropsWithChildren<ButtonProps & {exact? : boole
 
 export function SidebarMenu() {
 		const [profile, setProfile] = useState(null);
-        const [business, setBusiness] = useState(null);
 		let { call } = useContext(FrappeContext) as FrappeConfig;
 		// const navigate = useNavigate()
-        console.log("business",business)
 		
 	
 		async function checkProfile() {
@@ -59,14 +57,8 @@ export function SidebarMenu() {
 			setProfile(getCheckProfile.message);
 		}
 
-        async function checkBusiness() {
-			const getCheckBusiness = await call.get('maechan.maechan_license.doctype.business.business.check_businesses');
-			setBusiness(getCheckBusiness.message);
-		}
-	
 		useEffect(() => {
 			checkProfile();
-            checkBusiness();
 			// if (profile === false) {
 			// 	navigate('/profile')
 			// }
