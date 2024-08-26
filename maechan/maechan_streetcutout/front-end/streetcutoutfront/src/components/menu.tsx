@@ -80,27 +80,11 @@ export function SidebarMenu() {
                     หน้าหลัก</AppSidebarButton>
             </li>
             {profile && (
-                <>
-                    <li>
-                        <AppSidebarButton exact={false} href="/business" startContent={<FaBuilding />}>
-                            กิจการของท่าน
-                        </AppSidebarButton>
-                    </li>
-                    {business && (
-                    <>
-                        <li>
-                            <AppSidebarButton exact={false} href="/licenseRequest" startContent={<FaFileLines />}>
-                                คำร้องขอใบอนุญาต
-                            </AppSidebarButton>
-                        </li>
-                        <li>
-                            <AppSidebarButton exact={false} href="/pageStreetcutout" startContent={<TbLicense />}>
-                                ใบอนุญาต
-                            </AppSidebarButton>
-                        </li>
-                    </>
-                )}
-                </>
+                <li>
+                    <AppSidebarButton exact={false} href="/pageStreetcutout" startContent={<TbLicense />}>
+                        ใบอนุญาต
+                    </AppSidebarButton>
+                </li>
             ) }
 
 
