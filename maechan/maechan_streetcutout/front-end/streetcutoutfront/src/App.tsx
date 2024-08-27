@@ -95,10 +95,6 @@ function App() {
 
 										</Route>
 
-										<Route path="pageStreetcutout">
-											<Route index element={<StreetcutoutIndex />} />
-										</Route>
-
 										<Route path="profile">
 											<Route index element={<ProfilePage />} />
 										</Route>
