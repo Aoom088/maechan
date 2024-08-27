@@ -193,8 +193,6 @@ export default function RequeststreetcutouttaxCreate() {
 
         navigate(`/licenseRequest/${response.message.name}/edit`)
 
-    }
-
 
     return (
         <div className="flex flex-col">
