@@ -76,7 +76,7 @@ export function SidebarMenu() {
             {profile && (
                 <>
                         <li>
-                            <AppSidebarButton exact={false} href="/pageStreetcutout" startContent={<FaFileLines />}>
+                            <AppSidebarButton exact={false} href="/StreetcutoutRequest" startContent={<FaFileLines />}>
                                 คำร้องติดตั้งป้าย
                             </AppSidebarButton>
                         </li>
