@@ -26,7 +26,7 @@ function Requeststreetcutouttax() {
     useEffect(() => {
 
         if (data?.message?.data) {
-            setRequeststreetcutouttaxs(data.message.data);
+            setRequeststreetcutouttaxs(data?.message.data);
         }
         console.log(data)
         console.log(data?.message.data)
@@ -39,7 +39,7 @@ function Requeststreetcutouttax() {
         return (
             <div className="flex flex-row justify-between gap-3">
                 <div></div>
-                <Button className="" onClick={() => navigate("/licenseRequest/create")}
+                <Button className="" onClick={() => navigate("/StreetcutoutRequest/create")}
                     color="primary" endContent={<FaPlus />}>เพิ่มคำร้องใบอนุญาต</Button>
             </div>
         )

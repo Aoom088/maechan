@@ -85,7 +85,7 @@ def load_request_StreetcutoutTax():
 def load_request_streetcutouttaxs():
     user = frappe.session.user
     
-    result = frappe.db.get_all("RequestStreetcutoutTax", filters={})
+    result = frappe.db.get_all("RequestStreetcutoutTax", filters={'owner': user})
     
     docs = [frappe.get_doc('RequestStreetcutoutTax', x.name) for x in result]  # type: ignore
     
@@ -96,6 +96,8 @@ def load_request_streetcutouttaxs():
     frappe.response['streetcutout'] = streetcutout
     
     return {'data': docs}  
+
+
 
 
 

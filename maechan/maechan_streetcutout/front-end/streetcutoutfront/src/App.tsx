@@ -13,8 +13,8 @@ import ProfilePage from './pages/Personal/ProfilePage';
 import StreetcutoutIndex from './pages/Streetcutout/StreetcutoutIndex';
 import StreetcutoutView from './pages/Streetcutout/StreetcutoutView';
 import Requeststreetcutouttax from './pages/Streetcutout/Requeststreetcutouttax';
+import RequeststreetcutouttaxCreate from './pages/Streetcutout/RequeststreetcutouttaxCreate';
 
-import RequestLicenseCreate from './pages/Streetcutout/RequestLicenseCreate';
 import RequestLicenseEdit from './pages/Streetcutout/RequestLicenseEdit';
 import RequestLicenseView from './pages/Streetcutout/RequestLicenseView';
 import RequestLicensePayment from './pages/Streetcutout/RequestLicensePayment';
@@ -91,6 +91,7 @@ function App() {
 
 										<Route path="StreetcutoutRequest">
 											<Route index element={<Requeststreetcutouttax/>} />
+											<Route path='create' element={<RequeststreetcutouttaxCreate/>} />
 
 
 										</Route>

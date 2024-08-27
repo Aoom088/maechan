@@ -8,7 +8,7 @@ import { useAsyncList } from "@react-stately/data"
 import { DateTime } from "luxon";
 import { useAlertContext } from "../../providers/AlertProvider"
 
-export default function RequestLicenseCreate() {
+export default function RequeststreetcutouttaxCreate() {
 
     const navigate = useNavigate()
     const alert = useAlertContext()
@@ -19,33 +19,11 @@ export default function RequestLicenseCreate() {
         return (
             <div className="flex flex-row justify-between gap-3">
                 <div></div>
-                <Button className="" onClick={() => navigate("/licenseRequest/create")}
+                <Button className="" onClick={() => navigate("/StreetcutoutRequest/create")}
                     color="primary" endContent={<FaPlus />}>เพิ่มคำร้องใบอนุญาต</Button>
             </div>
         )
     }, [])
-
-    const [businesses, setBusinesses] = useState([] as IBusiness[])
-    const [requestTypes, setRequestTypes] = useState([] as IRequestLicenseType[])
-
-    const loadBusiness = async () => {
-        setIsLoading(true)
-        try {
-            let result = await call.post('maechan.maechan_license.doctype.business.business.get_businesses')
-            let resquestLicenseTypeResult = await call.post('maechan.maechan_license.doctype.requestlicensetype.requestlicensetype.get_request_license_type')
-
-            console.log(result)
-            setBusinesses(result.message)
-            setRequestTypes(resquestLicenseTypeResult.message)
-        } catch (error) {
-            console.log(error)
-            alert.showError(JSON.stringify(error))
-        } finally {
-            setIsLoading(false)
-        }
-
-
-    }
 
 
     let [createForm, setCreateForm] = useState({} as IRequestLicense)
@@ -189,30 +167,7 @@ export default function RequestLicenseCreate() {
         }
         else if (key == "applicant_amphur") {
             createFormValue.applicant_distict = ""
-        }
-        else if (key == "business") {
-            let business = businesses.find(x => x.name == value)
-            if (business) {
-                createFormValue['house_no'] = business.business_address ?? ''
-                createFormValue['house_tel'] = business.tel ?? ''
-                setIsLoading(true)
-                call.post("maechan.maechan_core.api.house_filter", { keyword: business.business_address }).then(
-                    houses => {
-                        list.setFilterText(
-                            houses.message.find((x: { name: string }) => x.name == business?.business_address).text_display
-                        )
-                        setIsLoading(false)
-                    }
-                )
-            }
-        } else if (key == "house_no") {
-            let house = list.items.find(x => x.name == value)
-            console.log(house, key, value)
-            list.setFilterText(house?.text_display ?? '')
-            if (!value) {
-                createFormValue.house_no = ''
-                setInvalid(true)
-            }else{
+        }else{
                 setInvalid(false)
             }
         }
@@ -223,21 +178,9 @@ export default function RequestLicenseCreate() {
 
     useEffect(() => {
         loadUserProfile()
-        loadBusiness()
     }, [])
 
-    let list = useAsyncList<IHouse>({
-        async load({ signal, filterText }) {
-            let res = await call.post("maechan.maechan_core.api.house_filter", { keyword: filterText })
-            return {
-                items: res.message,
-            };
-        },
-    });
-
     const [error, setError] = useState({
-        business_address: '',
-        business_name: '',
         result: null,
     })
 
