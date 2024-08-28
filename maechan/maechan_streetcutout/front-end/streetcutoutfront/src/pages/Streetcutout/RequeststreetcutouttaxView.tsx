@@ -2,7 +2,7 @@ import { BreadcrumbItem, Breadcrumbs, Input, Button, Select, SelectItem, Table, 
 import { PropsWithChildren, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { FaHome, FaPlus } from "react-icons/fa"
 import { Link, useNavigate, useParams } from "react-router-dom"
-import { IAmphure, IAttachment, IBusiness, IHouse, IProvince, IRequestDetail, IRequestLicense, IRequestLicenseInspect, IRequestLicenseType, IRequestTypeDetail, ITambon, IUserProfile } from "../../interfaces"
+import { IAmphure, IAttachment, IBusiness, IHouse, IProvince, IRequestDetail, IRequestStreetcutout, IRequestLicenseInspect, IRequestLicenseType, IRequestTypeDetail, ITambon, IUserProfile } from "../../interfaces"
 import { FrappeConfig, FrappeContext } from "frappe-react-sdk"
 import { useAlertContext } from "../../providers/AlertProvider"
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
@@ -27,7 +27,7 @@ export default function RequeststreetcutouttaxView() {
 
     const [isLoading, setIsLoading] = useState(true)
 
-    const loadProvinceAmphureDistrict = async (requestLicense: IRequestLicense) => {
+    const loadProvinceAmphureDistrict = async (requestLicense: IRequestStreetcutout) => {
         let pcall = call.post("maechan.maechan_core.doctype.province.province.get_all_province").then((r: { message: any; }) => {
             let provincesResult = r.message
             setProvinces(provincesResult)
@@ -63,7 +63,7 @@ export default function RequeststreetcutouttaxView() {
 
     }
 
-    const reloadProvinceAmphurDistrict = async (user_profile: IRequestLicense, key = '') => {
+    const reloadProvinceAmphurDistrict = async (user_profile: IRequestStreetcutout, key = '') => {
 
 
         if (user_profile.applicant_province && key == "applicant_province") {
@@ -121,8 +121,8 @@ export default function RequeststreetcutouttaxView() {
         let response = await call.post("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.load_request_streetcutouttax", {
             name: params.id
         })
-        
-        let requeststreetcutouttax: IRequestLicense = response.message
+
+        let requeststreetcutouttax: IRequestStreetcutout = response.message
 
         setCreateForm(requeststreetcutouttax)
         await loadProvinceAmphureDistrict(requeststreetcutouttax)
@@ -131,11 +131,10 @@ export default function RequeststreetcutouttaxView() {
 
     }
 
-
-
     useEffect(() => {
         setIsLoading(true)
-        loadRequestStreetcutoutTax().then((requeststreetcutouttax: IRequestLicense) => {
+        loadRequestStreetcutoutTax().then((requeststreetcutouttax: IRequestStreetcutout) => {
+            setIsLoading(false)
         })
     }, [])
 
@@ -179,7 +178,7 @@ export default function RequeststreetcutouttaxView() {
                     <Skeleton isLoaded={!isLoading}>
                         <div className="flex flex-col mb-3 gap-3 sm:flex-row">
                             <div className="flex flex-row lg:w-[50%] w-full">
-                            test
+                                test
                             </div>
                         </div>
                         <div className="flex flex-row lg:w-[50%] text-md mb-3">
@@ -189,11 +188,15 @@ export default function RequeststreetcutouttaxView() {
                             test
                         </div>
                         <div className="flex flex-row lg:w-[50%] text-md mb-3">
-                            ข้อมูลผู้ขอใบอนุญาต
+                            ข้อมูลเจ้าของป้าย
                         </div>
                         <div className="grid grid-cols-3 gap-3 mb-3">
-                            test
-
+                            <Input
+                                readOnly
+                                value={createForm.user_name_requeststreetcutouttax}
+                                name="user_name_requeststreetcutouttax"
+                                onChange={(e) => updateForm(e.target.name, e.target.value)}
+                                type="text" label="ชื่อ-สกุล" />
                         </div>
                         <div className="flex flex-row lg:w-[50%] text-md mb-3">
                             ที่อยู่ผู้ขอใบอนุญาต
