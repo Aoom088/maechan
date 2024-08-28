@@ -10,7 +10,7 @@ import { useAlertContext } from "../../providers/AlertProvider"
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import { FaDownload, FaMagnifyingGlass, FaTrash, FaUpload } from "react-icons/fa6"
 
-export default function RequestLicenseView() {
+export default function RequeststreetcutouttaxView() {
 
     const navigate = useNavigate()
     const alert = useAlertContext()
