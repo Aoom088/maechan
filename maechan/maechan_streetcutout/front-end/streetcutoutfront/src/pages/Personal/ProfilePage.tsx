@@ -167,7 +167,7 @@ export default function ProfilePage() {
                 </div>
 
                 <Skeleton isLoaded={!isLoading} className="mb-3 rounded-lg">
-                    <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-3">
+                    <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-3 shadow-inner" >
 
                         <Input type="text" name="fullname" value={createForm.fullname} label="ชื่อ-สกุล" placeholder="ชื่อ-สกุล"
                             onChange={(e) => {
@@ -205,7 +205,7 @@ export default function ProfilePage() {
                 </div>
                 <Skeleton isLoaded={!isLoading} className="mb-3 rounded-lg">
 
-                    <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-3">
+                    <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-3 drop-shadow-sm">
                         <Input type="text" name="address_no" value={createForm.address_no} label="เลขที่" placeholder="เลขที่"
                             onChange={(e) => {
                                 updateForm(e.target.name, e.target.value)

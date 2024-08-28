@@ -1,40 +1,32 @@
-// src/Dashboard.tsx
 import React from 'react';
 import aa from '../assets/aa.png';
 import bb from '../assets/bb.jpg';
 import cc from '../assets/cc.jpg';
 
-const notifications = [
-  { id: 1, message: 'ระบบได้รับการอัปเดตสำเร็จ' },
-  { id: 2, message: 'การสำรองข้อมูลเสร็จสิ้น' },
-];
-
 const links = [
   { id: 1, src: aa, url: 'https://example.com/1', alt: 'Advertisement 1' },
   { id: 2, src: bb, url: 'https://example.com/2', alt: 'Advertisement 2' },
   { id: 3, src: cc, url: 'https://example.com/3', alt: 'Advertisement 3' },
-  { id: 4, src: cc, url: 'https://example.com/4', alt: 'Advertisement 4' },
-  // เพิ่มโฆษณาอื่น ๆ ที่นี่
-  { id: 5, src: aa, url: 'https://example.com/5', alt: 'Advertisement 5' },
-  { id: 6, src: bb, url: 'https://example.com/6', alt: 'Advertisement 6' },
 ];
 
 const Dashboard: React.FC = () => {
   return (
     <div className="flex flex-col h-screen bg-gray-100">
       <header className="bg-gray-300 text-black p-4 flex items-center justify-center">
-        <h1 className="text-2xl font-bold">"ประชาชนมีส่วนร่วมพัฒนาเมืองแม่จันให้เป็นเมืองน่าอยู่"</h1>
+        <h1 className="text-2xl">"ประชาชนมีส่วนร่วมพัฒนาเมืองแม่จันให้เป็นเมืองน่าอยู่"</h1>
       </header>
       <main className="flex-1 p-4 overflow-auto">
-        <div className="bg-green-100 text-green-800 p-4 rounded shadow-md mb-4">
-          <h2 className="font-semibold text-lg">การแจ้งเตือนล่าสุด</h2>
-          <ul className="mt-2 space-y-2">
-            {notifications.map(notification => (
-              <li key={notification.id} className="text-sm">{notification.message}</li>
-            ))}
-          </ul>
+        {/* Block ว่าง ๆ สำหรับดึง API รูปภาพจากฝั่ง Frappe */}
+        <div className="bg-white p-4 rounded-lg shadow-md mb-4">
+          <h2 className="text-lg font-semibold text-gray-700">ภาพจาก Frappe</h2>
+          <div className="flex justify-center items-center h-64 bg-gray-200 rounded-lg">
+            {/* เพื่อนของคุณสามารถเพิ่มโค้ดสำหรับดึงรูปภาพ API ที่นี่ */}
+            <p className="text-gray-500">กำลังโหลดภาพ...</p>
+          </div>
         </div>
+
         <div className="relative">
+          <h1 className="text-xl font-semibold mb-4 text-center">ข่าวสาร</h1>
           <div className="overflow-x-auto whitespace-nowrap">
             <div className="flex space-x-4">
               {links.map(link => (

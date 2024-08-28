@@ -17,27 +17,7 @@ export default function RequestLicenseView() {
     const params = useParams()
 
 
-    const [businesses, setBusinesses] = useState([] as IBusiness[])
-    const [requestTypes, setRequestTypes] = useState([] as IRequestLicenseType[])
-
-    const loadBusiness = async () => {
-        try {
-            let result = await call.post('maechan.maechan_license.doctype.business.business.get_businesses')
-            let resquestLicenseTypeResult = await call.post('maechan.maechan_license.doctype.requestlicensetype.requestlicensetype.get_request_license_type')
-
-            console.log(result)
-            setBusinesses(result.message)
-            setRequestTypes(resquestLicenseTypeResult.message)
-        } catch (error) {
-            console.log(error)
-            alert.showError(JSON.stringify(error))
-        } finally {
-        }
-    }
-
-
     let [createForm, setCreateForm] = useState({} as IRequestLicense)
-    let [requestLicenseInspect, setRequestLicenseInspect] = useState([] as IRequestLicenseInspect[])
 
     let [provinces, setProvinces] = useState([] as IProvince[])
     let [amphures, setAmphures] = useState([] as IAmphure[])
@@ -143,23 +123,6 @@ export default function RequestLicenseView() {
         else if (key == "applicant_amphur") {
             createFormValue.applicant_distict = ""
         }
-        else if (key == "business") {
-            let business = businesses.find(x => x.name == value)
-            if (business) {
-                createFormValue['house_no'] = business.business_address ?? ''
-                createFormValue['house_tel'] = business.tel ?? ''
-                setIsLoading(true)
-                await updateHouseAutocomplete(business.business_address)
-                setIsLoading(false)
-            }
-        } else if (key == "house_no") {
-            let house = list.items.find(x => x.name == value) as IHouse
-            console.log(house, key, value)
-            list.setFilterText(house?.text_display ?? '')
-            if (!value) {
-                createFormValue.house_no = ''
-            }
-        }
         reloadProvinceAmphurDistrict(createFormValue, key)
         setCreateForm(createFormValue)
     }
@@ -171,7 +134,6 @@ export default function RequestLicenseView() {
         let requestLicense: IRequestLicense = response.message
 
         setCreateForm(requestLicense)
-        setRequestLicenseInspect(response.requestLicenseInspect)
         await updateHouseAutocomplete(requestLicense.house_no)
         await loadProvinceAmphureDistrict(requestLicense)
 
