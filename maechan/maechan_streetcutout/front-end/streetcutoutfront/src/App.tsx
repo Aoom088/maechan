@@ -4,7 +4,7 @@ import React, { useEffect,useContext, useState }  from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 
 import Login from './pages/login';
-import Register from './pages/xregister';
+import Register from './pages/register';
 import AlertProvider from './providers/AlertProvider';
 import AuthProvider from './providers/AuthProvider'; 
 import MainPage from './pages/Mainpage';  
@@ -14,9 +14,9 @@ import StreetcutoutIndex from './pages/Streetcutout/StreetcutoutIndex';
 import StreetcutoutView from './pages/Streetcutout/StreetcutoutView';
 import Requeststreetcutouttax from './pages/Streetcutout/Requeststreetcutouttax';
 import RequeststreetcutouttaxCreate from './pages/Streetcutout/RequeststreetcutouttaxCreate';
+import RequeststreetcutouttaxView from './pages/Streetcutout/RequeststreetcutouttaxView';
 
 import RequestLicenseEdit from './pages/Streetcutout/RequestLicenseEdit';
-import RequestLicenseView from './pages/Streetcutout/RequestLicenseView';
 import RequestLicensePayment from './pages/Streetcutout/RequestLicensePayment';
 
 function App() {
@@ -92,6 +92,7 @@ function App() {
 										<Route path="StreetcutoutRequest">
 											<Route index element={<Requeststreetcutouttax/>} />
 											<Route path='create'/>
+											<Route path=':id/view' element={<RequeststreetcutouttaxView/>} />
 
 
 										</Route>

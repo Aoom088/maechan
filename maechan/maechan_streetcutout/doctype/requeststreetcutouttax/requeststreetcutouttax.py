@@ -63,7 +63,7 @@ def get_transitions(workflow, doc):
 
 
 @frappe.whitelist()
-def load_request_StreetcutoutTax():
+def load_request_streetcutouttax():
     request = frappe.form_dict
     assert 'name' in request
 
@@ -98,7 +98,24 @@ def load_request_streetcutouttaxs():
     
     return {'data': docs}  
 
+@frappe.whitelist()
+def first_step_requeststreetcutouttax():
+    req = frappe.form_dict
+    assert 'request' in req
 
+    requeststreetcutouttax = req['request']
+
+    if 'doctype' not in requeststreetcutouttax:
+        requeststreetcutouttax['doctype'] = 'RequestStreetcutoutTax'
+
+    requeststreetcutouttaxObj: RequestStreetcutoutTax = frappe.get_doc(
+        requeststreetcutouttax)  # type: ignore
+    requeststreetcutouttaxObj.save()
+
+    requeststreetcutouttaxObj.notify_update()
+
+    
+    frappe.response['message'] = requeststreetcutouttaxObj
 
 
 
