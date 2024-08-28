@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class StreetcutoutLocationTable(Document):
+class StreetcutoutLocation(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -14,7 +14,7 @@ class StreetcutoutLocationTable(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		allowedstreet_streetcutoutlocationtable: DF.Link | None
+		allowed_streetcutoutlocation: DF.Link | None
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data

@@ -14,6 +14,9 @@ class AllowedStreet(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
+		parent: DF.Data
+		parentfield: DF.Data
+		parenttype: DF.Data
 		street_allowedstreet_streetcutout: DF.Data
 	# end: auto-generated types
 

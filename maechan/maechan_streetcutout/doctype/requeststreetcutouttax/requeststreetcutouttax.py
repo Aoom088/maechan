@@ -16,19 +16,20 @@ class RequestStreetcutoutTax(Document):
 
 	if TYPE_CHECKING:
 		from frappe.types import DF
-		from maechan.maechan_streetcutout.doctype.streetcutoutlocationtable.streetcutoutlocationtable import StreetcutoutLocationTable
+		from maechan.maechan_streetcutout.doctype.streetcutoutlocation.streetcutoutlocation import StreetcutoutLocation
 
 		amended_from: DF.Link | None
-		approve_status_requeststreetcutouttax: DF.Literal["\u0e2a\u0e23\u0e49\u0e32\u0e07", "\u0e23\u0e30\u0e2b\u0e27\u0e48\u0e32\u0e07\u0e01\u0e32\u0e23\u0e1e\u0e34\u0e08\u0e32\u0e23\u0e13\u0e32", "\u0e23\u0e2d\u0e0a\u0e33\u0e23\u0e30\u0e40\u0e07\u0e34\u0e19",
-		    "\u0e23\u0e30\u0e2b\u0e27\u0e48\u0e32\u0e07\u0e01\u0e32\u0e23\u0e15\u0e23\u0e27\u0e08\u0e2a\u0e2d\u0e1a", "\u0e23\u0e2d\u0e2d\u0e19\u0e38\u0e21\u0e31\u0e15\u0e34", "\u0e2d\u0e19\u0e38\u0e21\u0e31\u0e15\u0e34", "\u0e22\u0e01\u0e40\u0e25\u0e34\u0e01", "\u0e2b\u0e21\u0e14\u0e2d\u0e32\u0e22\u0e38"]
+		approve_status_requeststreetcutouttax: DF.Literal["\u0e2a\u0e23\u0e49\u0e32\u0e07", "\u0e23\u0e30\u0e2b\u0e27\u0e48\u0e32\u0e07\u0e01\u0e32\u0e23\u0e1e\u0e34\u0e08\u0e32\u0e23\u0e13\u0e32", "\u0e23\u0e2d\u0e0a\u0e33\u0e23\u0e30\u0e40\u0e07\u0e34\u0e19", "\u0e23\u0e30\u0e2b\u0e27\u0e48\u0e32\u0e07\u0e01\u0e32\u0e23\u0e15\u0e23\u0e27\u0e08\u0e2a\u0e2d\u0e1a", "\u0e23\u0e2d\u0e2d\u0e19\u0e38\u0e21\u0e31\u0e15\u0e34", "\u0e2d\u0e19\u0e38\u0e21\u0e31\u0e15\u0e34", "\u0e22\u0e01\u0e40\u0e25\u0e34\u0e01", "\u0e2b\u0e21\u0e14\u0e2d\u0e32\u0e22\u0e38"]
 		cost_requeststreetcutouttax: DF.Data | None
 		expiration_date_requeststreetcutouttax: DF.Date | None
 		payment_requeststreetcutouttax: DF.AttachImage | None
 		streetcutout_count_requeststreetcutouttax: DF.Data | None
-		streetcutout_location_table: DF.TableMultiSelect[StreetcutoutLocationTable]
+		streetcutout_img: DF.AttachImage | None
+		streetcutout_location: DF.TableMultiSelect[StreetcutoutLocation]
 		streetcutout_size: DF.Literal["120x240 \u0e40\u0e0b\u0e19\u0e15\u0e34\u0e40\u0e21\u0e15\u0e23"]
 		user_name_requeststreetcutouttax: DF.Data
 	# end: auto-generated types
+
      
 	pass
 

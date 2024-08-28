@@ -3,7 +3,7 @@ import { FrappeConfig, FrappeContext, useSWR } from "frappe-react-sdk"
 import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useContext, useEffect, useMemo, useState } from "react"
 import { FaEdit, FaFileDownload, FaFileImage, FaHome, FaPlus, FaReceipt } from "react-icons/fa"
 import { Link, useNavigate } from "react-router-dom"
-import { Doctype, IRequestStreetcutout} from "../../interfaces"
+import { Doctype, IRequestStreetcutout } from "../../interfaces"
 import { FaFile, FaFileImport, FaMagnifyingGlass } from "react-icons/fa6"
 import { useAlertContext } from "../../providers/AlertProvider"
 
@@ -31,7 +31,7 @@ function Requeststreetcutouttax() {
         console.log(data)
         console.log(data?.message.data)
         console.log(requeststreetcutouttaxs)
-    }, [data]);  
+    }, [data]);
 
 
     const topContent = useMemo(() => {
@@ -90,7 +90,38 @@ function Requeststreetcutouttax() {
 
                                             <TableCell >
                                                 <div className="flex flex-row gap-1 justify-center">
-                                                    test
+                                                    {
+                                                        x.docstatus == 0 && ["รอชำระเงิน"].indexOf(x.approve_status_requeststreetcutouttax) >= 0 ?
+                                                            (
+                                                                <Tooltip placement="top" content="อัพโหลดหลักฐานการชำระเงิน" aria-label="อัพโหลดหลักฐานการชำระเงิน" >
+                                                                    <span
+                                                                        onClick={() => { navigate(`/StreetcutoutRequest/${x.name}/payment`) }}
+                                                                        className="text-lg cursor-pointer active:opacity-50">
+                                                                        <FaFileImport />
+                                                                    </span>
+                                                                </Tooltip>
+                                                            ) : (null)
+                                                    }
+                                                    {
+                                                        x.docstatus == 0 && ["สร้าง", "หมดอายุ", "ยกเลิก"].indexOf(x.approve_status_requeststreetcutouttax) >= 0 ?
+                                                            (
+                                                                <Tooltip placement="top" content="แก้ไข" aria-label="แก้ไข" >
+                                                                    <span
+                                                                        onClick={() => { navigate(`/StreetcutoutRequest/${x.name}/edit`) }}
+                                                                        className="text-lg cursor-pointer active:opacity-50">
+                                                                        <FaEdit />
+                                                                    </span>
+                                                                </Tooltip>
+                                                            ) : (
+                                                                <Tooltip placement="top" content="ดู" aria-label="ดู" >
+                                                                    <span
+                                                                        onClick={() => { navigate(`/StreetcutoutRequest/${x.name}/view`) }}
+                                                                        className="text-lg cursor-pointer active:opacity-50">
+                                                                        <FaMagnifyingGlass />
+                                                                    </span>
+                                                                </Tooltip>
+                                                            )
+                                                    }
                                                 </div>
 
                                             </TableCell>
