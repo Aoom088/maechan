@@ -51,7 +51,10 @@
    "fieldname": "streetcutout_count_requeststreetcutouttax",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "\u0e08\u0e33\u0e19\u0e27\u0e19\u0e1b\u0e49\u0e32\u0e22"
+   "label": "\u0e08\u0e33\u0e19\u0e27\u0e19\u0e1b\u0e49\u0e32\u0e22",
+   "not_nullable": 1,
+   "reqd": 1,
+   "search_index": 1
   },
   {
    "fieldname": "qrcode_tab",
@@ -125,23 +128,30 @@
    "fieldname": "streetcutout_size",
    "fieldtype": "Select",
    "label": "\u0e02\u0e19\u0e32\u0e14\u0e02\u0e2d\u0e07\u0e1b\u0e49\u0e32\u0e22",
-   "options": "120x240 \u0e40\u0e0b\u0e19\u0e15\u0e34\u0e40\u0e21\u0e15\u0e23"
+   "options": "120x240 \u0e40\u0e0b\u0e19\u0e15\u0e34\u0e40\u0e21\u0e15\u0e23",
+   "reqd": 1,
+   "search_index": 1
   },
   {
    "fieldname": "streetcutout_location",
    "fieldtype": "Table MultiSelect",
-   "options": "StreetcutoutLocation"
+   "label": "\u0e16\u0e19\u0e19",
+   "options": "StreetcutoutLocation",
+   "reqd": 1,
+   "search_index": 1
   },
   {
    "fieldname": "streetcutout_img",
    "fieldtype": "Attach Image",
-   "label": "\u0e23\u0e39\u0e1b\u0e15\u0e31\u0e27\u0e2d\u0e22\u0e48\u0e32\u0e07\u0e1b\u0e49\u0e32\u0e22"
+   "label": "\u0e23\u0e39\u0e1b\u0e15\u0e31\u0e27\u0e2d\u0e22\u0e48\u0e32\u0e07\u0e1b\u0e49\u0e32\u0e22",
+   "reqd": 1,
+   "search_index": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-08-28 07:43:12.000349",
+ "modified": "2024-08-29 20:40:21.077777",
  "modified_by": "Administrator",
  "module": "maechan_streetcutout",
  "name": "RequestStreetcutoutTax",

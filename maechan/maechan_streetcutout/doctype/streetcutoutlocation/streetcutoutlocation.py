@@ -14,7 +14,7 @@ class StreetcutoutLocation(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		allowed_streetcutoutlocation: DF.Link | None
+		allowed_streetcutoutlocation: DF.Link
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
