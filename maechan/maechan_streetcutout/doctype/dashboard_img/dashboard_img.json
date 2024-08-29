@@ -1,0 +1,65 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-08-29 19:44:54.649149",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_irs2",
+  "dashboard_img",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_irs2",
+   "fieldtype": "Section Break",
+   "label": "\u0e23\u0e39\u0e1b\u0e20\u0e32\u0e1e\u0e17\u0e35\u0e48\u0e08\u0e30\u0e41\u0e2a\u0e14\u0e07\u0e1a\u0e19\u0e2b\u0e19\u0e49\u0e32 Dashboard"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Dashboard IMG",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "dashboard_img",
+   "fieldtype": "Attach Image",
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "\u0e27\u0e32\u0e07\u0e23\u0e39\u0e1b\u0e17\u0e35\u0e48\u0e19\u0e35\u0e48",
+   "no_copy": 1,
+   "print_hide": 1,
+   "reqd": 1,
+   "search_index": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-08-29 20:00:55.329929",
+ "modified_by": "Administrator",
+ "module": "maechan_streetcutout",
+ "name": "Dashboard IMG",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}
