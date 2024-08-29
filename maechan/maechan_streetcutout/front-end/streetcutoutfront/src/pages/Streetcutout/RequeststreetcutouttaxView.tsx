@@ -1,5 +1,5 @@
 import { BreadcrumbItem, Breadcrumbs, Input, Button, Select, SelectItem, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Autocomplete, AutocompleteItem, Skeleton, Tooltip } from "@nextui-org/react"
-import { PropsWithChildren, useContext, useEffect, useMemo, useRef, useState } from "react"
+import { Key, PropsWithChildren, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { FaHome, FaPlus } from "react-icons/fa"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import { IAmphure, IAttachment, IBusiness, IHouse, IProvince, IRequestDetail, IRequestStreetcutout, IRequestLicenseInspect, IRequestLicenseType, IRequestTypeDetail, ITambon, IUserProfile } from "../../interfaces"
@@ -134,6 +134,7 @@ export default function RequeststreetcutouttaxView() {
     useEffect(() => {
         setIsLoading(true)
         loadRequestStreetcutoutTax().then((requeststreetcutouttax: IRequestStreetcutout) => {
+            console.log(requeststreetcutouttax)
             setIsLoading(false)
         })
     }, [])
@@ -176,17 +177,6 @@ export default function RequeststreetcutouttaxView() {
             <Tabs aria-label="Tabs" isDisabled={isLoading}>
                 <Tab key="basic_information" aria-label="ข้อมูลพื้นฐาน" title="ข้อมูลพื้นฐาน" className="flex flex-col">
                     <Skeleton isLoaded={!isLoading}>
-                        <div className="flex flex-col mb-3 gap-3 sm:flex-row">
-                            <div className="flex flex-row lg:w-[50%] w-full">
-                                test
-                            </div>
-                        </div>
-                        <div className="flex flex-row lg:w-[50%] text-md mb-3">
-                            ลักษณะการดำเนินการ
-                        </div>
-                        <div className="grid grid-cols-3 gap-3 mb-3">
-                            test
-                        </div>
                         <div className="flex flex-row lg:w-[50%] text-md mb-3">
                             ข้อมูลเจ้าของป้าย
                         </div>
@@ -198,27 +188,57 @@ export default function RequeststreetcutouttaxView() {
                                 onChange={(e) => updateForm(e.target.name, e.target.value)}
                                 type="text" label="ชื่อ-สกุล" />
                         </div>
-                        <div className="flex flex-row lg:w-[50%] text-md mb-3">
-                            ที่อยู่ผู้ขอใบอนุญาต
-                        </div>
-
-                        <div className="grid grid-cols-3 gap-3 mb-3">
-                            test
-                        </div>
-
-                        <div className="grid grid-cols-3 gap-3 mb-3">
-                            test
-                        </div>
 
                         <div className="flex flex-row lg:w-[50%] text-md mb-3">
-                            ที่อยู่สถานประกอบการ (หากไม่พบบ้านเลขที่กรุณาแจ้งผู้ดูแลระบบ)
+                            ข้อมูลป้าย
                         </div>
-                        <div className="grid gap-3 mb-3 grid-row sm:grid-cols-3">
-                            test
+                        <div className="grid grid-cols-3 gap-3 mb-3">
+                            <Input
+                                readOnly
+                                value={createForm.streetcutout_count_requeststreetcutouttax}
+                                name="streetcutout_count_requeststreetcutouttax"
+                                onChange={(e) => updateForm(e.target.name, e.target.value)}
+                                type="text" label="จำนวนป้าย" />
                         </div>
+                        <div className="grid grid-cols-3 gap-3 mb-3">
+                            <Input
+                                readOnly
+                                value={createForm.streetcutout_size}
+                                name="streetcutout_size"
+                                onChange={(e) => updateForm(e.target.name, e.target.value)}
+                                type="text" label="ขนาดของป้าย" />
+                        </div>
+                        <div className="grid grid-cols-3 gap-3 mb-3">
+                            {createForm.streetcutout_img ? (
+                                <img
+                                    src={'http://maechandev.chaowdev.xyz:8001/' + createForm.streetcutout_img}
+                                    alt="รูปตัวอย่างป้าย"
+                                    className="w-full h-auto rounded"
+                                />
+                            ) : (
+                                <span>ไม่มีรูปตัวอย่างป้าย</span>
+                            )}
+                        </div>
+
+                        <div className="flex flex-row lg:w-[50%] text-md mb-3">
+                            สถานที่ตั้งป้าย
+                        </div>
+                        <div className="grid grid-cols-3 gap-3 mb-3">
+                            <Input
+                                readOnly
+                                value={createForm.streetcutout_location.map((location: { allowed_streetcutoutlocation: any }) => location.allowed_streetcutoutlocation).join(', ')}
+                                name="streetcutout_location_combined"
+                                onChange={(e) => updateForm(e.target.name, e.target.value)}
+                                type="text"
+                                label="ถนน"
+                            />
+                        </div>
+
+
+
 
                         <div className="flex flex-row lg:w-[50%] text-xl mb-3">
-                            <Button className="mr-3" onClick={() => { navigate("/licenseRequest") }} color="default">ยกเลิก</Button>
+                            <Button className="mr-3" onClick={() => { navigate("/StreetcutoutRequest") }} color="default">ยกเลิก</Button>
                         </div>
                     </Skeleton>
                 </Tab>
