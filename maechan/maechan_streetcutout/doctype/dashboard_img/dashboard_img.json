@@ -7,6 +7,8 @@
  "field_order": [
   "section_break_irs2",
   "dashboard_img",
+  "dashboard_img_link",
+  "section_break_kcgw",
   "amended_from"
  ],
  "fields": [
@@ -35,12 +37,21 @@
    "print_hide": 1,
    "reqd": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "dashboard_img_link",
+   "fieldtype": "Data",
+   "label": "link"
+  },
+  {
+   "fieldname": "section_break_kcgw",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-08-29 20:00:55.329929",
+ "modified": "2024-08-30 01:36:32.848570",
  "modified_by": "Administrator",
  "module": "maechan_streetcutout",
  "name": "Dashboard IMG",
@@ -57,9 +68,56 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Thedsaban Mayor",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Thedsaban Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Thedsaban User",
+   "share": 1,
+   "write": 1
   }
  ],
  "sort_field": "creation",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1
 }
