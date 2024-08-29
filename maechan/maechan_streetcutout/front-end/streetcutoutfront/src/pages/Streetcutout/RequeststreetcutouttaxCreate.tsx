@@ -235,86 +235,32 @@ export default function RequeststreetcutouttaxCreate() {
                 </div>
             </div>
             <div className="flex flex-row lg:w-[50%] text-md mb-3">
-                ลักษณะการดำเนินการ
-            </div>
-            <div className="grid grid-cols-3 gap-3 mb-3">
-                <Select
-                    label="ลักษณะการดำเนินงาน"
-                    className="" defaultSelectedKeys={["บุคคลธรรมดา"]}
-                    onSelectionChange={(k) => updateForm('license_applicant_type', Array.from(k)[0])}
-                >
-                    <SelectItem key="บุคคลธรรมดา" >บุคคลธรรมดา</SelectItem>
-                    <SelectItem key="นิติบุคคล" >นิติบุคคล</SelectItem>
-                </Select>
-
-                {createForm.license_applicant_type == 'นิติบุคคล' ? (
-                    <Input
-                        value={createForm.license_applicant}
-                        name="license_applicant"
-                        onChange={(e) => updateForm(e.target.name, e.target.value)}
-                        type="text" label="ชื่อนิติบุคคลที่ขอใบอนุญาต" />
-                ) : null}
-            </div>
-            <div className="flex flex-row lg:w-[50%] text-md mb-3">
-                ข้อมูลผู้ขอใบอนุญาต
+                ข้อมูลเจ้าของป้าย
             </div>
             <div className="grid grid-cols-3 gap-3 mb-3">
                 <Input
                     value={createForm.applicant_name}
                     name="applicant_name"
                     onChange={(e) => updateForm(e.target.name, e.target.value)}
-                    type="text" label="ชื่อ-สกุล" />
-                <Input
-                    value={createForm.applicant_age as string}
-                    name="applicant_age"
-                    onChange={(e) => updateForm(e.target.name, e.target.value)}
-                    type="number" label="อายุ" />
-                <Input
-                    value={createForm.applicant_nationality}
-                    name="applicant_nationality"
-                    onChange={(e) => updateForm(e.target.name, e.target.value)}
-                    type="text" label="สัญชาติ" />
-                <Input
-                    value={createForm.applicant_tel}
-                    onChange={(e) => updateForm(e.target.name, e.target.value)}
-                    name="applicant_tel"
-                    type="text" label="เบอร์โทรศัพท์" />
-                <Input
-                    value={createForm.applicant_fax}
-                    name="applicant_fax"
-                    onChange={(e) => updateForm(e.target.name, e.target.value)}
-                    type="text" label="แฟกซ์" />
-                <Input
-                    value={createForm.applicant_ethnicity}
-                    name="applicant_ethnicity"
-                    onChange={(e) => updateForm(e.target.name, e.target.value)}
-                    type="text" label="เชื้อชาติ" />
-
+                    type="text" label="ชื่อเจ้าของป้าย" />
             </div>
             <div className="flex flex-row lg:w-[50%] text-md mb-3">
-                ที่อยู่ผู้ขอใบอนุญาต
+                ข้อมูลป้าย
             </div>
 
             <div className="grid grid-cols-3 gap-3 mb-3">
                 <Input
-                    value={createForm.applicant_no}
-                    name="applicant_no"
+                    value={createForm.applicant_age as string}
+                    name="applicant_age"
                     onChange={(e) => updateForm(e.target.name, e.target.value)}
-                    type="text" label="เลขที่" />
-                <Input
-                    value={createForm.applicant_moo}
-                    name="applicant_moo"
-                    onChange={(e) => updateForm(e.target.name, e.target.value)}
-                    type="text" label="หมู่" />
-                <Input
-                    value={createForm.applicant_soi}
-                    name="applicant_soi"
-                    onChange={(e) => updateForm(e.target.name, e.target.value)}
-                    type="text" label="ตรอก/ซอย" />
-                <Input
-                    value={createForm.applicant_road}
-                    name="applicant_road"
-                    type="text" label="ถนน" />
+                    type="number" label="จำนวนป้าย" />
+                <Select
+                    label="ขนาดของป้าย"
+                    className="" defaultSelectedKeys={["120x240เซนติเมตร"]}
+                    onSelectionChange={(k) => updateForm('license_applicant_type', Array.from(k)[0])}
+                >
+                    <SelectItem key="ขนาดของป้าย" >120x240เซนติเมตร</SelectItem>
+                </Select>
             </div>
 
             <div className="grid grid-cols-3 gap-3 mb-3">
@@ -379,13 +325,6 @@ export default function RequeststreetcutouttaxCreate() {
                         </AutocompleteItem>
                     )}
                 </Autocomplete>
-
-                <Input
-                    value={createForm.house_tel}
-                    name="house_tel"
-                    onChange={(e) => updateForm(e.target.name, e.target.value)}
-                    type="text" label="เบอร์โทรศัพท์" />
-
             </div>
 
             <div className="flex flex-row lg:w-[50%] text-xl mb-3">
