@@ -22,8 +22,8 @@ function AppNavbarBrand() {
                     src={`${import.meta.env.VITE_FRAPPE_URL ? import.meta.env.VITE_FRAPPE_URL  : window.location.origin}/${data?.message?.app_logo}`} 
                 />
             </Skeleton>
-            <Skeleton isLoaded={!isLoading} className="rounded-lg w-[10rem]">
-                <p className="font-bold text-inherit text-xl">{data?.message?.app_name ?? ''}</p>
+            <Skeleton isLoaded={!isLoading} className="rounded-lg ">
+                <p className="font-semibold text-inherit text-xl">{data?.message?.app_name ?? ''}</p>
             </Skeleton>
         </NavbarBrand>
     );
@@ -48,7 +48,7 @@ function AppNavbar() {
     };
 
     return (
-        <Navbar isBordered maxWidth="xl" classNames={{ wrapper: "p-1 md:p-6 bg-gray-100 border-b border-gray-300" }}>
+        <Navbar isBordered maxWidth="xl" classNames={{ wrapper:"p-1 md:p-6" }}>
             <AppNavbarBrand />
             <Skeleton isLoaded={!auth.isLoading} className="rounded-full">
                 {auth.currentUser ? (
@@ -85,7 +85,7 @@ function MainPage() {
                     <div className="mb-3 lg:mb-0 lg:w-[280px] w-full">
                         <SidebarMenu />
                     </div>
-                    <div className="lg:pl-3 lg:ml-3 p-3 lg:w-full border border-gray-300 lg:min-h-[600px] rounded-md bg-white shadow-md">
+                    <div className="lg:pl-3 lg:ml-3 p-3 lg:w-full  lg:min-h-[600px] rounded-md bg-white shadow-md">
                         <Outlet />
                     </div>
                 </div>

@@ -25,7 +25,7 @@ const LoginForm = (): JSX.Element => {
     const doLogin = async () => {
         await isLoginWrapper(async () => {
             try {
-                setLoginError({ message: 'เกิดข้อผิดพลาด' } as FrappeError);
+                setLoginError({ message: '' } as FrappeError);
                 let result = await login(credential);
                 console.log('doLogin result', result);
             } catch (error) {
@@ -95,7 +95,7 @@ const LoginForm = (): JSX.Element => {
                             placeholder="ชื่อผู้ใช้"
                             name="username"
                             onValueChange={(value) => handleCredential('username', value)}
-                            className="w-full border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-100 focus:border-transparent focus:border-blue-600 focus:ring-blue-600 focus:outline-none py-2 px-3 transition duration-300 ease-in-out"
+                            className="min-w-[300px] max-w-[350px]"
                              />
                         <Input
                             isInvalid={loginError?.message !== ''}
@@ -106,7 +106,7 @@ const LoginForm = (): JSX.Element => {
                             placeholder="กรุณากรอกรหัสผ่าน"
                             name="password"
                             onValueChange={(value) => handleCredential('password', value)}
-                            className="w-full border border-gray-300 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:border-blue-600 focus:ring-blue-600 focus:outline-none py-2 px-3 transition duration-300 ease-in-out"
+                            className="min-w-[300px] max-w-[350px]"
                             />
                             <Button
                                 type="submit"

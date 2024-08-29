@@ -1,55 +1,87 @@
-import React from 'react';
-import aa from '../assets/aa.png';
-import bb from '../assets/bb.jpg';
-import cc from '../assets/cc.jpg';
+import { FrappeConfig, FrappeContext } from 'frappe-react-sdk';
+import { useContext, useEffect, useState } from 'react';
+import useSWR from 'swr';
 
-const links = [
-  { id: 1, src: aa, url: 'https://example.com/1', alt: 'Advertisement 1' },
-  { id: 2, src: bb, url: 'https://example.com/2', alt: 'Advertisement 2' },
-  { id: 3, src: cc, url: 'https://example.com/3', alt: 'Advertisement 3' },
-];
+function Dashboard() {
+    const [completed, setCompleted] = useState({
+        profile: false,
+        business: false,
+        request: false,
+        permit: false,
+    });
 
-const Dashboard: React.FC = () => {
-  return (
-    <div className="flex flex-col h-screen bg-gray-100">
-      <header className="bg-gray-300 text-black p-4 flex items-center justify-center">
-        <h1 className="text-2xl">"ประชาชนมีส่วนร่วมพัฒนาเมืองแม่จันให้เป็นเมืองน่าอยู่"</h1>
-      </header>
-      <main className="flex-1 p-4 overflow-auto">
-        {/* Block ว่าง ๆ สำหรับดึง API รูปภาพจากฝั่ง Frappe */}
-        <div className="bg-white p-4 rounded-lg shadow-md mb-4">
-          <h2 className="text-lg font-semibold text-gray-700">ภาพจาก Frappe</h2>
-          <div className="flex justify-center items-center h-64 bg-gray-200 rounded-lg">
-            {/* เพื่อนของคุณสามารถเพิ่มโค้ดสำหรับดึงรูปภาพ API ที่นี่ */}
-            <p className="text-gray-500">กำลังโหลดภาพ...</p>
-          </div>
+    const { call } = useContext(FrappeContext) as FrappeConfig;
+
+    const fetcher = (url: string) => call.get(url).then(response => response.message);
+
+    const { data: profile, error: profileError } = useSWR(
+        'maechan.maechan.doctype.userprofile.userprofile.check_current_userprofile',
+        fetcher
+    );
+
+    const { data: business, error: businessError } = useSWR(
+        'maechan.maechan_license.doctype.business.business.check_businesses',
+        fetcher
+    );
+
+    const { data: request, error: requestsError } = useSWR(
+        'maechan.maechan_license.doctype.requestlicense.requestlicense.check_requst_license',
+        fetcher
+    );
+    
+    const { data: permit, error: permitsError } = useSWR(
+        'maechan.maechan_license.doctype.license.license.check_license',
+        fetcher
+    );
+
+    console.log("request : ", request);
+    console.log("permit : ", permit);
+
+    // Use useEffect to update the state after data fetching
+    useEffect(() => {
+        const updateCompleted = async () => {
+            // Wait for all data to be loaded
+            await Promise.all([profile, business, request, permit]);
+
+            // Only update the state if all data is available
+            if (profile !== undefined && business !== undefined && request !== undefined && permit !== undefined) {
+                setCompleted(prevState => ({
+                    ...prevState,
+                    profile,
+                    business,
+                    request,
+                    permit,
+                }));
+            }
+        };
+
+        updateCompleted();
+    }, [profile, business, request, permit]);
+
+    const CheckIcon = () => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-6 h-6 text-green-500">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+    );
+
+    const CrossIcon = () => (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-6 h-6 text-red-500">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+    );
+
+    const renderIcon = (state) => {
+        if (state === true) return <CheckIcon />;
+        if (state === false) return <CrossIcon />;
+        return <div className="w-6 h-6 border-2 border-gray-500"></div>;
+    };
+
+    return (
+        <div className="flex flex-col gap-3 items-center">
+            <header className="text-xl font-bold container text-center bg-gray-400 rounded-md">"ประชาชนมีส่วนร่วมพัฒนาเมืองแม่จันให้เป็นเมืองที่น่าอยู่"</header>
+            <h1 className="font-bold">การใช้งานเบื้องต้น</h1>
         </div>
-
-        <div className="relative">
-          <h1 className="text-xl font-semibold mb-4 text-center">ข่าวสาร</h1>
-          <div className="overflow-x-auto whitespace-nowrap">
-            <div className="flex space-x-4">
-              {links.map(link => (
-                <a
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  key={link.id}
-                  className="bg-white p-2 rounded-lg border border-gray-100 shadow-md transition-transform transform hover:scale-105 hover:shadow-lg"
-                >
-                  <img
-                    src={link.src}
-                    alt={link.alt}
-                    className="w-64 h-64 object-cover rounded-lg transition-opacity duration-300 hover:opacity-80 cursor-pointer"
-                  />
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
-  );
-};
+    );
+}
 
 export default Dashboard;

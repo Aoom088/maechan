@@ -78,7 +78,7 @@ function Dashboard() {
 
     return (
         <div className="flex flex-col gap-3">
-            <h1 className="text-xl font-bold">ยินดีต้อนรับสู่ระบบริการประชาชน</h1>
+            <h1 className="text-xl font-bold flex items-center">ยินดีต้อนรับสู่ระบบริการประชาชน</h1>
 
             <h1 className="font-bold">การใช้งานเบื้องต้น</h1>
             <ol className="list-decimal ml-6">
