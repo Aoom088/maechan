@@ -1,3 +1,5 @@
+import { List } from "postcss/lib/list";
+
 export type Doctype = {
     docstatus: number;
     name: string;
@@ -143,9 +145,10 @@ export type IRequestStreetcutout = Doctype & {
     expiration_date_requeststreetcutouttax: Date;
     payment_requeststreetcutouttax: string;
     streetcutout_count_requeststreetcutouttax: number;
-    streetcutout_location_table: string;
+    streetcutout_location:Array<{ allowed_streetcutoutlocation: string }>;
     streetcutout_size: string;
     user_name_requeststreetcutouttax: string;
+    streetcutout_img:string;
 }
 
 export type IRequestLicense = Doctype & {
