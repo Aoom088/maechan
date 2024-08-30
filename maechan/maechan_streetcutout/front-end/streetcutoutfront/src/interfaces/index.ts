@@ -136,6 +136,7 @@ export type IRequestLicenseType = Doctype & {
 }
 export type DashboardData = Doctype & {
     dashboard_img: string;
+	dashboard_img_link: string;
   }
 
 export type IRequestStreetcutout = Doctype & {

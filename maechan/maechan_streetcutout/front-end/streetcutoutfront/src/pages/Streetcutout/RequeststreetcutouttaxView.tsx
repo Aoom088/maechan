@@ -134,7 +134,7 @@ export default function RequeststreetcutouttaxView() {
 
 
                         <div className="flex flex-row lg:w-[50%] text-xl mb-3">
-                            <Button className="mr-3" onClick={() => { navigate("/StreetcutoutRequest") }} color="default">ยกเลิก</Button>
+                            <Button className="mr-3" onClick={() => { navigate("/StreetcutoutRequest") }} color="default">ย้อนกลับ</Button>
                         </div>
                     </Skeleton>
                 </Tab>

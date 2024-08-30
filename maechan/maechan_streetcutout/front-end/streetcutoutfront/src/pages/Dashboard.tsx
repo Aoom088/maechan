@@ -1,39 +1,35 @@
-import { useContext, useEffect, useState } from 'react';
-import { FrappeContext, FrappeConfig, } from "frappe-react-sdk";
 import useSWR from 'swr';
-import { DashboardData } from "../interfaces"
-
+import { FrappeContext, FrappeConfig } from "frappe-react-sdk";
+import { useContext, useEffect, useState } from 'react';
+import { DashboardData } from "../interfaces";
 
 function Dashboard() {
   const [IMG, setIMG] = useState<DashboardData[]>([]);
 
   const { call } = useContext(FrappeContext) as FrappeConfig;
-
-  const fetcher = (url: string) => call.get(url).then(response => response.message);
+  const fetcher = (url: string) => call.get(url).then((res) => res.message.data); // เข้าถึง data array
 
   const { data: img, error: imgError, isLoading: imgloading } = useSWR(
-    "maechan.maechan_streetcutout.doctype.dashboard_img.dashboard_img.load_dashboard_imgs",
+    "maechan.maechan_streetcutout.doctype.dashboardimg.dashboardimg.load_dashboard_imgs",
     fetcher
   );
-
-  console.log("img : ", img);
-
+  console.log(img)
   useEffect(() => {
     if (img) {
       setIMG(img);
-      console.log("Fetched images: ", img); 
+      console.log("Fetched images:", img);
     }
   }, [img]);
 
   useEffect(() => {
-    console.log("IMG state: ", IMG); 
+    console.log("IMG state:", IMG);
   }, [IMG]);
 
   return (
-    <div className='flex flex-col flex-wrap gap-3 p-5'>
+    <div className='flex flex-col flex-auto mb-5'>
       <ul>
-        <h1 className='p-5 text-xl font-bold tracking-wide text-white bg-custom-gradient rounded mb-5'>
-          ติดต่อสอบถาม
+        <h1 className='p-5 text-xl font-bold tracking-widest text-white bg-custom-gradient rounded mb-5'>
+          ติดต่อสอบถามภาษีป้าย
         </h1>
         <li className='flex flex-col flex-wrap mb-8'>
           <h1 className='text-xl font-sans tracking-wide text-black text-center mb-3'>
@@ -54,18 +50,21 @@ function Dashboard() {
         </li>
       </ul>
 
-      <div className='text-base font-sans tracking-wide text-black text-center'>
-        {imgloading ? (
-          <p>กำลังโหลด.....</p>
-        ) : imgError ? (
-          <p>เกิดข้อผิดพลาดในการโหลดข้อมูล</p>
-        ) : IMG.length > 0 ? (
-          IMG.map((imgData: DashboardData) => (
-            <img key={imgData.name} src={'http://maechandev.chaowdev.xyz:8001/' + imgData.dashboard_img} alt="Dashboard" />
-          ))
-        ) : (
-          <p>ไม่มีภาพ</p>
-        )}
+      <div className='container  px-4 mb-4 border-gray-200  text-xl text-center'>
+        การเก็บภาษีป้าย
+        <div className='flex flex-auto justify-center'>
+          {imgloading ? (
+            <p>กำลังโหลด.....</p>
+          ) : (
+            IMG.map((imgData: DashboardData) => (
+              <img
+                src={'http://maechandev.chaowdev.xyz:8001/' + imgData.dashboard_img}
+                alt=""
+                className="max-h-unit-7xl "
+              />
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
