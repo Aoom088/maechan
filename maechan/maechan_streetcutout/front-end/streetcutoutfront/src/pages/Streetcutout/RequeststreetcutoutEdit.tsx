@@ -6,7 +6,7 @@ import { IAmphure, IAttachment, IBusiness, IHouse, IProvince, IRequestDetail, IR
 import { FrappeConfig, FrappeContext } from "frappe-react-sdk"
 import { useAlertContext } from "../../providers/AlertProvider"
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
-import { FaEdit,FaDownload, FaMagnifyingGlass, FaTrash, FaUpload } from "react-icons/fa6"
+import { FaDownload, FaMagnifyingGlass, FaTrash, FaUpload } from "react-icons/fa6"
 
 
 export default function RequeststreetcutouttaxEdit() {
