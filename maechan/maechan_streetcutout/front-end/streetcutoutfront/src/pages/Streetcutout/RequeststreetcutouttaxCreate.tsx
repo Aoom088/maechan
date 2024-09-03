@@ -2,9 +2,8 @@ import { BreadcrumbItem, Breadcrumbs, Input, Button, Select, SelectItem, Table, 
 import { useContext, useEffect, useMemo, useState } from "react"
 import { FaHome, FaPlus } from "react-icons/fa"
 import { Link, useNavigate } from "react-router-dom"
-import { IAmphure, IBusiness, IHouse, IProvince, IRequestDetail, IRequestLicense, IRequestLicenseType, ITambon, IUserProfile } from "../../interfaces"
+import { IRequestStreetcutout, IAmphure, IBusiness, IHouse, IProvince, IRequestDetail, IRequestLicense, IRequestLicenseType, ITambon, IUserProfile } from "../../interfaces"
 import { FrappeConfig, FrappeContext } from "frappe-react-sdk"
-import { useAsyncList } from "@react-stately/data"
 import { useAlertContext } from "../../providers/AlertProvider"
 
 export default function RequeststreetcutouttaxCreate() {
@@ -25,12 +24,7 @@ export default function RequeststreetcutouttaxCreate() {
     }, [])
 
 
-    let [createForm, setCreateForm] = useState({} as IRequestLicense)
-    let [provinces, setProvinces] = useState([] as IProvince[])
-    let [amphures, setAmphures] = useState([] as IAmphure[])
-    let [districts, setDistricts] = useState([] as ITambon[])
-    const [amphureLoad, setAmphureLoad] = useState(false)
-    const [districtLoad, setDistrictLoad] = useState(false)
+    let [createForm, setCreateForm] = useState({} as IRequestStreetcutout)
     let { call } = useContext(FrappeContext) as FrappeConfig
 
     const [isLoading, setIsLoading] = useState(true)
@@ -38,145 +32,19 @@ export default function RequeststreetcutouttaxCreate() {
 
     console.log(invalid)
 
-    const loadUserProfile = async () => {
-        setIsLoading(true)
-
-        try {
-
-            let res = await call.post("maechan.maechan.doctype.userprofile.userprofile.get_current_userprofile")
-            console.log(res)
-
-            let user_profile = res.message as IUserProfile
-
-            let pcall = call.post("maechan.maechan_core.doctype.province.province.get_all_province").then((r: { message: any; }) => {
-                let provincesResult = r.message
-                setProvinces(provincesResult)
-            })
-            let acall = null;
-            let tcall = null;
-
-            if (user_profile.address_province) {
-                acall = call.post("maechan.maechan_core.doctype.province.province.get_all_amphure", {
-                    filters: {
-                        province_id: user_profile.address_province
-                    }
-                }).then((r: any) => {
-                    let result = r.message
-                    setAmphures(result)
-                })
-            }
-
-            if (user_profile.address_amphur) {
-                tcall = call.post("maechan.maechan_core.doctype.province.province.get_all_tambon", {
-                    filters: {
-                        province_id: user_profile.address_province,
-                        amphure_id: user_profile.address_amphur
-                    }
-                }).then((r: any) => {
-                    let result = r.message
-                    setDistricts(result)
-                })
-            }
-
-            await Promise.all([pcall, acall, tcall])
-
-
-            function calAge(a: Date, b: Date) {
-                let ms = 1000 * 60 * 60 * 24 * 365;
-                let bDay = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
-                let tDay = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
-
-                return Math.floor((tDay - bDay) / ms);
-            }
-
-
-            let birthday = new Date(user_profile.birthdate)
-            let today = new Date()
-            let age = calAge(birthday, today);
-            let dtToday = DateTime.now()
-
-            setCreateForm({
-                ...createForm,
-                "date": dtToday.toISODate(),
-                "applicant_name": user_profile.fullname,
-                "applicant_nationality": user_profile.nationality,
-                "applicant_ethnicity": user_profile.race,
-                "applicant_tel": user_profile.tel,
-                "applicant_no": user_profile.address_no,
-                "applicant_moo": user_profile.address_moo,
-                "applicant_soi": user_profile.address_soi,
-                "applicant_road": user_profile.address_road,
-                "applicant_age": age,
-                applicant_distict: user_profile.address_district,
-                applicant_amphur: user_profile.address_amphur,
-                applicant_province: user_profile.address_province,
-                license_applicant_type: 'บุคคลธรรมดา'
-            })
-
-        } catch (error) {
-            alert.showError(JSON.stringify(error))
-        }
-        setIsLoading(false)
-    }
-
-    const reloadProvinceAmphurDistrict = async (user_profile: IRequestLicense, key = '') => {
-
-
-        if (user_profile.applicant_province && key == "applicant_province") {
-            setAmphureLoad(true)
-            call.post("maechan.maechan_core.doctype.province.province.get_all_amphure", {
-                filters: {
-                    province_id: user_profile.applicant_province
-                }
-            }).then((r: { message: any; }) => {
-                let result = r.message
-                setAmphures(result)
-            }).finally(() => {
-                setAmphureLoad(false)
-            })
-
-        }
-
-        if (user_profile.applicant_amphur && key == "applicant_amphur") {
-            setDistrictLoad(true)
-            call.post("maechan.maechan_core.doctype.province.province.get_all_tambon", {
-                filters: {
-                    province_id: user_profile.applicant_province,
-                    amphure_id: user_profile.applicant_amphur
-                }
-            }).then((r: any) => {
-                let result = r.message
-                setDistricts(result)
-            }).finally(() => {
-                setDistrictLoad(false)
-            })
-        }
-    }
 
     const updateForm = async (key: string, value: string | number) => {
 
         let createFormValue = {
             ...createForm,
             [key]: value
-        } as IRequestLicense
+        } as IRequestStreetcutout
 
-        if (key == "applicant_province") {
-            createFormValue.applicant_amphur = ""
-            createFormValue.applicant_distict = ""
-        }
-        else if (key == "applicant_amphur") {
-            createFormValue.applicant_distict = ""
-        }else{
-                setInvalid(false)
-            }
-        }
-        reloadProvinceAmphurDistrict(createFormValue, key)
-        setCreateForm(createFormValue)
     }
 
 
     useEffect(() => {
-        loadUserProfile()
+        
     }, [])
 
     const [error, setError] = useState({
@@ -184,20 +52,20 @@ export default function RequeststreetcutouttaxCreate() {
     })
 
     const save = async () => {
-        let response = await call.post("maechan.maechan_license.doctype.requestlicense.requestlicense.first_step_requestlicense", {
+        let response = await call.post("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.first_step_requeststreetcutouttax", {
             request: createForm
         })
         console.log(response)
 
 
-        navigate(`/licenseRequest/${response.message.name}/edit`)
+        navigate(`/StreetcutoutRequest/${response.message.name}/edit`)
 
 
     return (
         <div className="flex flex-col">
             <Breadcrumbs className="mb-3">
                 <BreadcrumbItem><Link to={"/"}><FaHome /></Link></BreadcrumbItem>
-                <BreadcrumbItem><Link to={'/licenseRequest'}>คำร้องขอใบอนุญาต</Link></BreadcrumbItem>
+                <BreadcrumbItem><Link to={'/StreetcutoutRequest'}>คำร้องขอใบอนุญาต</Link></BreadcrumbItem>
                 <BreadcrumbItem>เพิ่มคำร้องขอใบอนุญาต
                 </BreadcrumbItem>
             </Breadcrumbs>
@@ -207,31 +75,11 @@ export default function RequeststreetcutouttaxCreate() {
             </div>
             <div className="flex flex-col mb-3 gap-3 sm:flex-row">
                 <div className="flex flex-row lg:w-[50%] w-full">
-                    <Select
-                        label="กิจการ"
-                        className=""
-                        onSelectionChange={(key) => { updateForm("business", Array.from(key)[0]) }}
-                    >
-                        {businesses.map((b) => (
-                            <SelectItem key={b.name} >
-                                {b.business_name}
-                            </SelectItem>
-                        ))}
-                    </Select>
+                    test
 
                 </div>
                 <div className="flex flex-row lg:w-[50%] w-full">
-                    <Select
-                        label="ประเภทการขออนุญาต"
-                        className=""
-                        onSelectionChange={(k) => updateForm('request_type', Array.from(k)[0])}
-                    >
-                        {requestTypes.map((b) => (
-                            <SelectItem key={b.name} >
-                                {b.name}
-                            </SelectItem>
-                        ))}
-                    </Select>
+                    test
                 </div>
             </div>
             <div className="flex flex-row lg:w-[50%] text-md mb-3">
