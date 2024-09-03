@@ -15,8 +15,8 @@ import StreetcutoutView from './pages/Streetcutout/StreetcutoutView';
 import Requeststreetcutouttax from './pages/Streetcutout/Requeststreetcutouttax';
 import RequeststreetcutouttaxCreate from './pages/Streetcutout/RequeststreetcutouttaxCreate';
 import RequeststreetcutouttaxView from './pages/Streetcutout/RequeststreetcutouttaxView';
+import RequeststreetcutoutEdit from './pages/Streetcutout/RequeststreetcutoutEdit';
 
-import RequestLicenseEdit from './pages/Streetcutout/RequestLicenseEdit';
 import RequestLicensePayment from './pages/Streetcutout/RequestLicensePayment';
 
 function App() {
@@ -92,6 +92,7 @@ function App() {
 										<Route path="StreetcutoutRequest">
 											<Route index element={<Requeststreetcutouttax/>} />
 											<Route path='create' />
+											<Route path=':id/edit' element={<RequeststreetcutoutEdit />} />
 											<Route path=':id/view' element={<RequeststreetcutouttaxView/>} />
 
 
