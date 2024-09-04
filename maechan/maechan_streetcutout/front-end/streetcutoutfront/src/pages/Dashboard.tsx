@@ -50,9 +50,9 @@ function Dashboard() {
         </li>
       </ul>
 
-      <div className='container  px-4 mb-4 border-gray-200  text-xl text-center'>
-        การเก็บภาษีป้าย
-        <div className='flex flex-auto justify-center'>
+      <div className='container  px-4 mb-6 border-gray-200'>
+        <h1 className='flex flex-col font-semibold mb-4 text-center'>การเก็บภาษีป้าย</h1>
+        <div className='flex flex-auto justify-center mb-3'>
           {imgloading ? (
             <p>กำลังโหลด.....</p>
           ) : (
@@ -65,6 +65,30 @@ function Dashboard() {
             ))
           )}
         </div>
+      </div>
+      <div className='flex flex-col p-5 mb-3'>
+          <h1 className='flex flex-col font-semibold'>
+          ป้ายกองโจร ป้ายติดตั้งชั่วคราว 
+          </h1>
+          <p className='flex flex-auto mb-3'>
+          การขออนุญาตโฆษณา ปิด ทิ้ง หรือโปรยแผ่นประกาศ หรือใบปลิว โดยป้ายจะต้องเป็นลักษณะป้ายชั่วคราว มีขนาดเดียวคือ 1.20 x 2.40 เซนติเมตร เพื่อความสะอาดและเป็นระเบียบเรียบร้อยของบ้านเมือง โดยมีขั้นตอนการขออนุญาต ดังนี้
+          </p>
+          <ul>
+        <li className='flex flex-col flex-wrap mb-8'>
+          <h2 className='text-base font-sans tracking-wide text-black text-left'>
+          1. ยื่นหนังสือขออนุญาตต่อนายกเทศมนตรี พร้อมแนบแบบโฆษณา 
+          </h2>
+          <h2 className='text-base font-sans tracking-wide text-black text-left'>
+          2. เขียนคำร้อง (แบบ ร.ส.1) ที่งานรักษาความสงบ สำนักปลัดเทศบาล หรือผ่าน online ได้ภายในเว็บไซต์นี้
+          </h2>
+          <h2 className='text-base font-sans tracking-wide text-black text-left mb-4'>
+          3. เมื่อผ่านการอนุญาต ให้ชำระค่าธรรมเนียมป้ายละ 200 บาท โดยเจ้าหน้าที่จะออกใบเสร็จรับเงินไว้เป็นหลักฐาน
+          </h2>
+          <h3 className='text-base font-sans tracking-wide text-black text-left'>
+          ทั้งนี้ สถานที่ในการติดตั้งป้ายโฆษณา ห้ามติดตั้งบริเวณคร่อมทางสาธารณะ วงเวียน สะพานลอย เกาะกลางถนน สวนหย่อม สวนสาธารณะ ถนน ต้นไม้ ที่สาธารณะ และเสาไฟฟ้าซึ่งเป็นทรัพย์สินของการไฟฟ้า จะไม่อนุญาตให้ติดตั้ง โดยเมื่อครบกำหนดเวลาตามที่ระบุไว้ในหนังสือแล้ว ให้ทำการรื้อถอนป้ายทันที ทั้งนี้ ระยะติดตั้งได้ไม่เกิน 1 เดือน
+          </h3>
+        </li>
+      </ul>
       </div>
     </div>
   );

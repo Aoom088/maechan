@@ -142,7 +142,7 @@
   },
   {
    "fieldname": "streetcutout_img",
-   "fieldtype": "Attach Image",
+   "fieldtype": "Attach",
    "label": "\u0e23\u0e39\u0e1b\u0e15\u0e31\u0e27\u0e2d\u0e22\u0e48\u0e32\u0e07\u0e1b\u0e49\u0e32\u0e22",
    "reqd": 1,
    "search_index": 1
@@ -151,7 +151,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-08-29 20:40:21.077777",
+ "modified": "2024-09-04 13:36:10.665982",
  "modified_by": "Administrator",
  "module": "maechan_streetcutout",
  "name": "RequestStreetcutoutTax",

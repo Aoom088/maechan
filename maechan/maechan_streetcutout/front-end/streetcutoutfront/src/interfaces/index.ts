@@ -145,7 +145,7 @@ export type IRequestStreetcutout = Doctype & {
     cost_requeststreetcutouttax: number;
     expiration_date_requeststreetcutouttax: Date;
     payment_requeststreetcutouttax: string;
-    streetcutout_count_requeststreetcutouttax: number;
+    streetcutout_count_requeststreetcutouttax: string | number;
     streetcutout_location:Array<{ allowed_streetcutoutlocation: string }>;
     streetcutout_size: string;
     user_name_requeststreetcutouttax: string;

@@ -1,5 +1,5 @@
 import { BreadcrumbItem, Breadcrumbs, Input, Button, Select, SelectItem, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Autocomplete, AutocompleteItem } from "@nextui-org/react"
-import { useContext, useEffect, useMemo, useState } from "react"
+import { useContext, useEffect, useMemo, useRef, useState } from "react"
 import { FaHome, FaPlus } from "react-icons/fa"
 import { Link, useNavigate } from "react-router-dom"
 import { IRequestStreetcutout, IAmphure, IBusiness, IHouse, IProvince, IRequestDetail, IRequestLicense, IRequestLicenseType, ITambon, IUserProfile } from "../../interfaces"
@@ -28,7 +28,7 @@ export default function RequeststreetcutouttaxCreate() {
     let { call } = useContext(FrappeContext) as FrappeConfig
 
     const [isLoading, setIsLoading] = useState(true)
-    const [invalid,setInvalid] = useState(true)
+    const [invalid, setInvalid] = useState(true)
 
     console.log(invalid)
 
@@ -44,7 +44,7 @@ export default function RequeststreetcutouttaxCreate() {
 
 
     useEffect(() => {
-        
+
     }, [])
 
     const [error, setError] = useState({
@@ -60,6 +60,80 @@ export default function RequeststreetcutouttaxCreate() {
 
         navigate(`/StreetcutoutRequest/${response.message.name}/edit`)
 
+    }
+
+    const validate = () => {
+
+        if (createForm.streetcutout_img) {
+            return true
+        }
+
+        alert.showError("กรุณาอัพโหลดตัวอย่างป้าย")
+
+        return false
+    }
+    const UploadButton = ({ doc }: { doc: IRequestStreetcutout }) => {
+
+        const { file } = useContext(FrappeContext) as FrappeConfig
+
+        const inputFile = useRef<HTMLInputElement>(null)
+
+        const [isUploading, setIsUploading] = useState(false)
+        const openInputFile = () => {
+            inputFile?.current?.click();
+
+        }
+
+        const uploadFile = async (e: any) => {
+            setIsUploading(true)
+            let myFile = e.target.files[0]
+            const fileArgs = {
+                "isPrivate": false,
+                "folder": "home/RequestStreetcutoutAttachment",
+            }
+
+            file.uploadFile(
+                myFile,
+                fileArgs,
+                /** Progress Indicator callback function **/
+                (completedBytes, totalBytes) => console.log(Math.round((completedBytes / (totalBytes ?? completedBytes + 1)) * 100), " completed")
+            )
+                .then((response) => {
+                    console.log("File Upload complete")
+                    let fileResponse = response.data.message
+                    console.log(response)
+                    call.post("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.first_step_requeststreetcutouttax", {
+                    }).catch(e => alert.showError(JSON.stringify(e)))
+                })
+                .catch(e => console.error(e))
+
+
+        }
+        const siteName = import.meta.env.VITE_FRAPPE_URL ?? window.origin
+
+
+        if (doc.streetcutout_img) {
+            return (
+                <div className="flex flex-row gap-3">
+                    <Button isLoading={isUploading} onClick={() => { window.open(`${siteName}/${doc.streetcutout_img}`) }} color="primary">
+                        ดูรูป
+                    </Button>
+                    <Button isLoading={isUploading}  color="danger">ลบ</Button>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <Button isLoading={isUploading} color="primary" onClick={openInputFile}>อัพโหลดตัวอย่างป้าย</Button>
+                    <input type="file" id="file" onChange={uploadFile} ref={inputFile} style={{ display: "none" }} />
+
+                </div>
+            )
+        }
+
+
+    }
+    
 
     return (
         <div className="flex flex-col">
@@ -73,22 +147,13 @@ export default function RequeststreetcutouttaxCreate() {
             <div className="flex flex-row lg:w-[50%] text-xl mb-3">
                 เพิ่มคำร้องขอใบอนุญาต
             </div>
-            <div className="flex flex-col mb-3 gap-3 sm:flex-row">
-                <div className="flex flex-row lg:w-[50%] w-full">
-                    test
-
-                </div>
-                <div className="flex flex-row lg:w-[50%] w-full">
-                    test
-                </div>
-            </div>
             <div className="flex flex-row lg:w-[50%] text-md mb-3">
                 ข้อมูลเจ้าของป้าย
             </div>
             <div className="grid grid-cols-3 gap-3 mb-3">
                 <Input
-                    value={createForm.applicant_name}
-                    name="applicant_name"
+                    value={createForm.user_name_requeststreetcutouttax}
+                    name="user_name_requeststreetcutouttax"
                     onChange={(e) => updateForm(e.target.name, e.target.value)}
                     type="text" label="ชื่อเจ้าของป้าย" />
             </div>
@@ -98,86 +163,35 @@ export default function RequeststreetcutouttaxCreate() {
 
             <div className="grid grid-cols-3 gap-3 mb-3">
                 <Input
-                    value={createForm.applicant_age as string}
-                    name="applicant_age"
-                    onChange={(e) => updateForm(e.target.name, e.target.value)}
-                    type="number" label="จำนวนป้าย" />
+                    value={createForm.streetcutout_count_requeststreetcutouttax}
+                    name="streetcutout_count_requeststreetcutouttax"
+                    onChange={(e) => updateForm(e.target.name, Number(e.target.value))}
+                    type="number"
+                    min="0"
+                    label="จำนวนป้าย" />
+
                 <Select
                     label="ขนาดของป้าย"
                     className="" defaultSelectedKeys={["120x240เซนติเมตร"]}
-                    onSelectionChange={(k) => updateForm('license_applicant_type', Array.from(k)[0])}
+                    onSelectionChange={(k) => updateForm('streetcutout_size', Array.from(k)[0])}
                 >
                     <SelectItem key="ขนาดของป้าย" >120x240เซนติเมตร</SelectItem>
                 </Select>
             </div>
-
             <div className="grid grid-cols-3 gap-3 mb-3">
-                <Select
-                    items={provinces}
-                    label="จังหวัด"
-                    selectedKeys={[createForm.applicant_province]}
-                    onSelectionChange={(key) => {
-                        updateForm('applicant_province', Array.from(key)[0])
-                    }}
-                >
-                    {(province) => <SelectItem key={province.name}>{province.name_th}</SelectItem>}
-                </Select>
-
-                <Select
-                    isLoading={amphureLoad}
-                    isDisabled={amphureLoad}
-                    items={amphures}
-                    label="อำเภอ"
-                    selectedKeys={[createForm.applicant_amphur]}
-                    onSelectionChange={(key) => updateForm('applicant_amphur', Array.from(key)[0])}
-
-                >
-                    {(amphure) => <SelectItem key={amphure.name}>{amphure.name_th}</SelectItem>}
-                </Select>
-                <Select
-                    isLoading={districtLoad}
-                    isDisabled={districtLoad}
-                    items={districts}
-                    label="ตำบล"
-                    selectedKeys={[createForm.applicant_distict]}
-                    onSelectionChange={(key) => updateForm('applicant_distict', Array.from(key)[0])}
-
-                >
-                    {(district) => <SelectItem key={district.name}>{district.name_th}</SelectItem>}
-                </Select>
+                <UploadButton doc={createForm} />
             </div>
 
             <div className="flex flex-row lg:w-[50%] text-md mb-3">
-                ที่อยู่สถานประกอบการ (หากไม่พบบ้านเลขที่กรุณาแจ้งผู้ดูแลระบบ)
+                testที่อยู่สถานประกอบการ (หากไม่พบบ้านเลขที่กรุณาแจ้งผู้ดูแลระบบ)
             </div>
             <div className="grid gap-3 mb-3 grid-row sm:grid-cols-3">
-
-                <Autocomplete
-                    className="w-full"
-
-                    isRequired
-                    inputValue={list.filterText}
-                    isLoading={list.isLoading}
-                    items={list.items}
-                    label="ที่อยู่กิจการ (บ้านเลขที่)"
-                    placeholder="Type to search..."
-                    onInputChange={list.setFilterText}
-                    onSelectionChange={(key) => updateForm('house_no', key)}
-                    selectedKey={createForm.house_no}
-                    errorMessage={invalid ? "Please fill in this field." : ""}
-                    isInvalid={invalid}
-                >
-                    {(item) => (
-                        <AutocompleteItem key={item.name} className="capitalize">
-                            {item.text_display}
-                        </AutocompleteItem>
-                    )}
-                </Autocomplete>
+                test
             </div>
 
             <div className="flex flex-row lg:w-[50%] text-xl mb-3">
                 <Button disabled={invalid} className={`mr-3`} color="primary" isDisabled={invalid} onClick={save}>บันทึกและต่อไป</Button>
-                <Button className="mr-3" onClick={() => { navigate("/licenseRequest") }} color="default">ยกเลิก</Button>
+                <Button className="mr-3" onClick={() => { navigate("/StreetcutoutRequest") }} color="default">ยกเลิก</Button>
             </div>
         </div>
 

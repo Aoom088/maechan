@@ -91,7 +91,7 @@ function App() {
 
 										<Route path="StreetcutoutRequest">
 											<Route index element={<Requeststreetcutouttax/>} />
-											<Route path='create' />
+											<Route path='create' element={<RequeststreetcutouttaxCreate/>}/>
 											<Route path=':id/edit' element={<RequeststreetcutoutEdit />} />
 											<Route path=':id/view' element={<RequeststreetcutouttaxView/>} />
 
