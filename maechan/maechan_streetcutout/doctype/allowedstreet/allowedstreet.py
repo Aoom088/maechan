@@ -2,6 +2,9 @@
 # For license information, please see license.txt
 
 # import frappe
+from typing import List
+import frappe
+import frappe.utils
 from frappe.model.document import Document
 
 
@@ -18,3 +21,14 @@ class AllowedStreet(Document):
 	# end: auto-generated types
 
 	pass
+
+@frappe.whitelist()
+def load_allowedstreet():
+    query = """
+        select 
+            tabAllowedStreet.*
+        from tabAllowedStreet
+    """
+
+    result = frappe.db.sql(query, as_dict=True)
+    return {'data': result}

@@ -6,7 +6,6 @@ from typing import List
 import frappe
 import frappe.utils
 from frappe.model.document import Document
-from maechan.maechan_license.doctype.requestlicense.requestlicense import RequestLicense
 
 
 class RequestStreetcutoutTax(Document):
@@ -59,18 +58,6 @@ def get_transitions(workflow, doc):
                                    }, fields=['*'])
 
     return transition
-
-def get_streetcutout_locations():
-    # ดึงข้อมูลทั้งหมดจาก Doctype `StreetcutoutLocation`
-    locations = frappe.get_all('StreetcutoutLocation', fields=['name', 'location_name'])
-    return locations
-
-@frappe.whitelist()
-def get_streetcutout_location_options():
-    locations = get_streetcutout_locations()
-    options = [{'value': loc['name'], 'label': loc['location_name']} for loc in locations]
-    return options
-
 
 
 @frappe.whitelist()
@@ -177,14 +164,3 @@ def update_attachment():
 
     return requeststreetcutouttaxDoc
 
-
-@frappe.whitelist()
-def load_streetcutouttax():
-    query = """
-        select 
-            tabRequestStreetcutoutTax.*
-        from tabRequestStreetcutoutTax
-    """
-
-    result = frappe.db.sql(query, as_dict=True)
-    return {'data': result}
