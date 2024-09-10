@@ -1,11 +1,9 @@
 import { BreadcrumbItem, Breadcrumbs, Input, Button, Select, SelectItem, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, Autocomplete, AutocompleteItem } from "@nextui-org/react"
-import { SetStateAction, useContext, useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { FaHome, FaPlus } from "react-icons/fa"
 import { Link, useNavigate } from "react-router-dom"
-import { IRequestStreetcutout, IAmphure, IBusiness, IHouse, IProvince, IRequestDetail, IRequestLicense, IRequestLicenseType, ITambon, IUserProfile } from "../../interfaces"
-import { FrappeConfig, FrappeContext } from "frappe-react-sdk"
+import { IRequestStreetcutout} from "../../interfaces"
 import { useAlertContext } from "../../providers/AlertProvider"
-import useSWR from 'swr';
 
 export default function RequeststreetcutouttaxCreate() {
 
