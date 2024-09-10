@@ -6,6 +6,7 @@ from typing import List
 import frappe
 import frappe.utils
 from frappe.model.document import Document
+from maechan.maechan_license.doctype.requestlicense.requestlicense import RequestLicense
 
 
 class RequestStreetcutoutTax(Document):
@@ -59,6 +60,18 @@ def get_transitions(workflow, doc):
 
     return transition
 
+def get_streetcutout_locations():
+    # ดึงข้อมูลทั้งหมดจาก Doctype `StreetcutoutLocation`
+    locations = frappe.get_all('StreetcutoutLocation', fields=['name', 'location_name'])
+    return locations
+
+@frappe.whitelist()
+def get_streetcutout_location_options():
+    locations = get_streetcutout_locations()
+    options = [{'value': loc['name'], 'label': loc['location_name']} for loc in locations]
+    return options
+
+
 
 @frappe.whitelist()
 def load_request_streetcutouttax():
@@ -105,9 +118,6 @@ def first_step_requeststreetcutouttax():
     req = frappe.form_dict
     assert 'request' in req
 
-    if 'request' not in req:
-        raise ValueError("Missing 'request' in the input data")
-
     requeststreetcutouttax = req['request']
 
     if 'doctype' not in requeststreetcutouttax:
@@ -122,19 +132,51 @@ def first_step_requeststreetcutouttax():
     frappe.response['message'] = requeststreetcutouttaxObj
 
 @frappe.whitelist()
-def update_attachment():
+def update_payment():
 
-    from maechan.maechan_license.doctype.attachment.attachment import Attachment
     req = frappe.form_dict
-    assert 'attachment' in req
+    assert 'requeststreetcutouttax' in req
     assert 'fileresponse' in req
-    attchmentReq = req['attachment']
+    requestLicenseReq = req['requeststreetcutouttax']
     fileReq = req['fileresponse']
-    attachmentDoc: Attachment = frappe.get_doc(attchmentReq)  # type: ignore
-    attachmentDoc.value = fileReq['file_url']
-    attachmentDoc.save()
 
-    return attachmentDoc
+    requestLicenseDoc: RequestStreetcutoutTax = frappe.get_doc(
+        requestLicenseReq)  # type: ignore
+    requestLicenseDoc.payment_requeststreetcutouttax = fileReq['file_url']
+    requestLicenseDoc.save()
+
+    return requestLicenseDoc
+
+@frappe.whitelist()
+def clear_payment():
+
+    req = frappe.form_dict
+    assert 'requeststreetcutouttax' in req
+
+    requestLicenseReq = req['requeststreetcutouttax']
+
+    requestLicenseDoc: RequestStreetcutoutTax = frappe.get_doc(
+        requestLicenseReq)  # type: ignore
+    requestLicenseDoc.payment_requeststreetcutouttax = None
+    requestLicenseDoc.save()
+
+    return requestLicenseDoc
+
+
+@frappe.whitelist()
+def update_attachment():
+    req = frappe.form_dict
+    assert 'requeststreetcutouttax' in req
+    assert 'fileresponse' in req
+    requeststreetcutouttaxReq = req['requeststreetcutouttax']
+    fileReq = req['fileresponse']
+
+    requeststreetcutouttaxDoc = frappe.get_doc("RequestStreetcutoutTax", requeststreetcutouttaxReq)
+    requeststreetcutouttaxDoc.streetcutout_img = fileReq['file_url']
+    requeststreetcutouttaxDoc.save()
+
+    return requeststreetcutouttaxDoc
+
 
 @frappe.whitelist()
 def load_streetcutouttax():

@@ -84,8 +84,25 @@ function Requeststreetcutouttax() {
                                                     <div className="font-bold">{x.name}</div>
                                                 </div>
                                             </TableCell>
-                                            <TableCell>{x.approve_status_requeststreetcutouttax}</TableCell>
-                                            <TableCell>{x.streetcutout_count_requeststreetcutouttax}</TableCell>
+                                            <TableCell 
+                                            style={{
+                                                color:
+                                                  x.approve_status_requeststreetcutouttax === 'อนุมัติ'
+                                                    ? 'green'
+                                                    : x.approve_status_requeststreetcutouttax === 'ระหว่างการตรวจสอบ'
+                                                    ? 'orange'
+                                                    : x.approve_status_requeststreetcutouttax === 'ระหว่างการพิจารณา' 
+                                                    ? 'blue' 
+                                                    : x.approve_status_requeststreetcutouttax === 'รอชำระเงิน' 
+                                                    ? 'purple' 
+                                                    : x.approve_status_requeststreetcutouttax === 'สร้าง' 
+                                                    ? 'green' 
+                                                    : x.approve_status_requeststreetcutouttax === 'ยกเลิก' 
+                                                    ? 'red'
+                                                    : 'black', // สีเริ่มต้นหากไม่ตรงกับเงื่อนไข
+                                              }}
+                                            >{x.approve_status_requeststreetcutouttax}</TableCell>
+                                            <TableCell >{x.streetcutout_count_requeststreetcutouttax}</TableCell>
                                             <TableCell>{x.cost_requeststreetcutouttax}</TableCell>
 
                                             <TableCell >

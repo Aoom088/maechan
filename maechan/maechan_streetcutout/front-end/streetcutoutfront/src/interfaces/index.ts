@@ -139,6 +139,13 @@ export type DashboardData = Doctype & {
 	dashboard_img_link: string;
   }
 
+export type AllowedStreet = Doctype & {
+    street_allowedstreet_streetcutout: string;
+  }
+export type StreetcutoutLocation = Doctype &  {
+    allowed_streetcutoutlocation: string | AllowedStreet
+}
+
 export type IRequestStreetcutout = Doctype & {
     approve_status_requeststreetcutouttax:string;
     amended_from: string;

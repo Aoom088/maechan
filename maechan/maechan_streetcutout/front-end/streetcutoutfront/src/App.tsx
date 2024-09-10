@@ -94,17 +94,16 @@ function App() {
 											<Route path='create' element={<RequeststreetcutouttaxCreate/>}/>
 											<Route path=':id/edit' element={<RequeststreetcutoutEdit />} />
 											<Route path=':id/view' element={<RequeststreetcutouttaxView/>} />
-
+											<Route path=':id/payment' element={<RequestLicensePayment/>} />
 
 										</Route>
 
 										<Route path="profile">
 											<Route index element={<ProfilePage />} />
 										</Route>
-
 									</Route>
 								</Routes>
-							</BrowserRouter>
+							</BrowserRouter>	
 						</AuthProvider>
 					</AlertProvider>
 				</FrappeProvider>

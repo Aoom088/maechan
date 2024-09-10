@@ -2,11 +2,11 @@ import { BreadcrumbItem, Breadcrumbs, Button, CardBody, Card, CardFooter } from 
 import { useContext, useEffect, useRef, useState } from "react"
 import { FaHome } from "react-icons/fa"
 import { Link, useNavigate, useParams } from "react-router-dom"
-import { ILicenseType, IRequestLicense } from "../../interfaces"
+import { ILicenseType, IRequestStreetcutout } from "../../interfaces"
 import { FrappeConfig, FrappeContext } from "frappe-react-sdk"
 import { useAlertContext } from "../../providers/AlertProvider"
 import { Tabs, Tab } from "@nextui-org/react";
-
+import gogo from "../../assets/gogo.jpg"
 export default function RequestLicensePayment() {
 
     const navigate = useNavigate()
@@ -14,8 +14,7 @@ export default function RequestLicensePayment() {
     const params = useParams()
 
 
-    let [createForm, setCreateForm] = useState({} as IRequestLicense)
-    let [licenseType, setLicenseType] = useState({} as ILicenseType)
+    let [createForm, setCreateForm] = useState({} as IRequestStreetcutout)
     let { call } = useContext(FrappeContext) as FrappeConfig
 
     const [isLoading, setIsLoading] = useState(true)
@@ -24,19 +23,17 @@ export default function RequestLicensePayment() {
 
 
     const loadRequestLicense = async () => {
-        let response = await call.post("maechan.maechan_license.doctype.requestlicense.requestlicense.load_request_license", {
+        let response = await call.post("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.load_request_streetcutouttax", {
             name: params.id
         })
-        let requestLicense: IRequestLicense = response.message
+        let requeststreetcutouttax: IRequestStreetcutout = response.message
 
-        let licensetype = await call.post("maechan.maechan_license.doctype.licensetype.licensetype.get", {
-            'name': requestLicense.license_type
-        })
+       
 
-        setLicenseType(licensetype.message)
-        setCreateForm(requestLicense)
+    
+        setCreateForm(requeststreetcutouttax)
         setWorkflowTransition(response.transition)
-        return requestLicense
+        return requeststreetcutouttax ;
 
     }
 
@@ -53,8 +50,8 @@ export default function RequestLicensePayment() {
 
 
     const workFlowActionButton = () => {
-        let currentState = workflowTransition.find(w => w.state == createForm.workflow_state)
-        console.log("XXX", createForm.workflow_state)
+        let currentState = workflowTransition.find(w => w.state == createForm.approve_status_requeststreetcutouttax)
+        console.log("XXX", createForm.approve_status_requeststreetcutouttax)
         if (currentState) {
             return (
                 <Button onClick={() => submitDoc(currentState.action)} type="button" color="secondary">{currentState.action}</Button>
@@ -67,7 +64,7 @@ export default function RequestLicensePayment() {
 
     const validate = () => {
 
-        if (createForm.payment_attachment) {
+        if (createForm.payment_requeststreetcutouttax) {
             return true
         }
 
@@ -81,7 +78,7 @@ export default function RequestLicensePayment() {
         if (validate()) {
             call.post(`maechan.maechan_license.doctype.requestlicense.requestlicense.citizen_submit`, {
                 name: createForm.name,
-                state: createForm.workflow_state,
+                state: createForm.approve_status_requeststreetcutouttax,
                 action: action
             }).then(() => {
                 navigate("/licenseRequest")
@@ -92,7 +89,7 @@ export default function RequestLicensePayment() {
 
     }
 
-    const UploadButton = ({ doc }: { doc: IRequestLicense }) => {
+    const UploadButton = ({ doc }: { doc: IRequestStreetcutout }) => {
 
         const { file } = useContext(FrappeContext) as FrappeConfig
 
@@ -106,8 +103,8 @@ export default function RequestLicensePayment() {
 
         const clearPayment = async () => {
             setIsUploading(true)
-            call.post("maechan.maechan_license.doctype.requestlicense.requestlicense.clear_payment", {
-                'requestlicense': doc
+            call.post("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.clear_payment", {
+                'requeststreetcutouttax': doc
             }).then(() => {
                 loadRequestLicense().then(() => setIsLoading(false))
             })
@@ -120,7 +117,7 @@ export default function RequestLicensePayment() {
                 /** If the file access is private then set to TRUE (optional) */
                 "isPrivate": false,
                 /** Folder the file exists in (optional) */
-                "folder": "home/RequestLicenseAttachment",
+                "folder": "home/PaymentAttachment",
                 // /** File URL (optional) */
                 // /** Doctype associated with the file (optional) */
                 // "doctype": "Attachment",
@@ -140,9 +137,9 @@ export default function RequestLicensePayment() {
                     console.log("File Upload complete")
                     let fileResponse = response.data.message
                     console.log(response)
-                    call.post("maechan.maechan_license.doctype.requestlicense.requestlicense.update_payment", {
-                        'fileresponse': fileResponse,
-                        'requestlicense': doc
+                    call.post("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.update_payment", {
+                        'fileresponse': fileResponse,   
+                        'requeststreetcutouttax': doc
                     }).then(() => {
                         loadRequestLicense().then(() => setIsLoading(false))
                     }).catch(e => alert.showError(JSON.stringify(e)))
@@ -154,10 +151,10 @@ export default function RequestLicensePayment() {
         const siteName = import.meta.env.VITE_FRAPPE_URL ?? window.origin
 
 
-        if (doc.payment_attachment) {
+        if (doc.payment_requeststreetcutouttax) {
             return (
                 <div className="flex flex-row gap-3">
-                    <Button isLoading={isUploading} onClick={() => { window.open(`${siteName}/${doc.payment_attachment}`) }} color="primary">
+                    <Button isLoading={isUploading} onClick={() => { window.open(`${siteName}/${doc.payment_requeststreetcutouttax}`) }} color="primary">
                         ดูหลักฐาน
                     </Button>
                     <Button isLoading={isUploading} onClick={clearPayment} color="danger">ลบ</Button>
@@ -180,14 +177,14 @@ export default function RequestLicensePayment() {
         <div className="flex flex-col">
             <Breadcrumbs className="mb-3">
                 <BreadcrumbItem><Link to={"/"}><FaHome /></Link></BreadcrumbItem>
-                <BreadcrumbItem><Link to={'/licenseRequest'}>คำร้องขอใบอนุญาต</Link></BreadcrumbItem>
+                <BreadcrumbItem><Link to={'/licenseRequest'}>คำร้องขอติดตั้งป้าย</Link></BreadcrumbItem>
                 <BreadcrumbItem>ชำระเงิน : {params.id}
                 </BreadcrumbItem>
             </Breadcrumbs>
 
 
             <div className="flex flex-row text-xl mb-3 justify-between">
-                <div>คำร้องขอใบอนุญาต : {params.id}</div>
+                <div>คำร้องขอติดตั้งป้าย : {params.id}</div>
                 <div>
                     {workFlowActionButton()}
                 </div>
@@ -198,10 +195,13 @@ export default function RequestLicensePayment() {
 
                     <Card>
                         <CardBody>
-                            <div className="font-bold">ค่าธรรมเนียมใบอนุญาต</div>
-                            <div><span className="font-bold">ประเภท : </span> {licenseType.license_type}</div>
-                            <div><span className="font-bold">ใบอนุญาต : </span>{licenseType?.title}</div>
-                            <div><span className="font-bold">ค่าธรรมเนียม : </span>{createForm?.license_fee ?? '-'} บาท</div>
+                            <div className="font-bold">ค่าธรรมเนียม</div>
+                            <div><span className="font-bold">ค่าธรรมเนียม : </span>{createForm?.cost_requeststreetcutouttax ?? '-'} บาท</div>
+                            <div className="mb-5 font-bold">สแกนจ่ายตรงนี้</div> 
+                            <div className="mb-6  h-40 w-40">
+                                <img 
+                                src={gogo} alt="payment"/>
+                             </div>
                         </CardBody>
                         <CardFooter>
                             <UploadButton doc={createForm} />
