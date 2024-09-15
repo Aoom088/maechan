@@ -84,6 +84,90 @@ export default function RequeststreetcutouttaxEdit() {
 
     }
 
+    const UploadButton = ({ doc }: { doc: IRequestStreetcutout }) => {
+
+        const { file } = useContext(FrappeContext) as FrappeConfig
+
+        const inputFile = useRef<HTMLInputElement>(null)
+
+        const [isUploading, setIsUploading] = useState(false)
+        const openInputFile = () => {
+            inputFile?.current?.click();
+
+        }
+
+        const clearPayment = async () => {
+            setIsUploading(true)
+            call.post("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.clear_payment", {
+                'requeststreetcutouttax': doc
+            }).then(() => {
+                loadRequestStreetcutoutTax().then(() => setIsLoading(false))
+            })
+        }
+
+        const uploadFile = async (e: any) => {
+            setIsUploading(true)
+            let myFile = e.target.files[0]
+            const fileArgs = {
+                /** If the file access is private then set to TRUE (optional) */
+                "isPrivate": false,
+                /** Folder the file exists in (optional) */
+                "folder": "home/RequestStreetcutoutAttachment",
+                // /** File URL (optional) */
+                // /** Doctype associated with the file (optional) */
+                // "doctype": "Attachment",
+                // /** Docname associated with the file (mandatory if doctype is present) */
+                // "docname": attachment.name,
+                // /** Field to be linked in the Document **/
+                // "fieldname" : "value"
+            }
+
+            file.uploadFile(
+                myFile,
+                fileArgs,
+                /** Progress Indicator callback function **/
+                (completedBytes, totalBytes) => console.log(Math.round((completedBytes / (totalBytes ?? completedBytes + 1)) * 100), " completed")
+            )
+                .then((response) => {
+                    console.log("File Upload complete")
+                    let fileResponse = response.data.message
+                    console.log(response)
+                    call.post("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.update_attachment", {
+                        'fileresponse': fileResponse,   
+                        'requeststreetcutouttax': doc
+                    }).then(() => {
+                        loadRequestStreetcutoutTax().then(() => setIsLoading(false))
+                    }).catch(e => alert.showError(JSON.stringify(e)))
+                })
+                .catch(e => console.error(e))
+
+
+        }
+        const siteName = import.meta.env.VITE_FRAPPE_URL ?? window.origin
+
+
+        if (doc.streetcutout_img) {
+            return (
+                <div className="flex flex-row gap-3">
+                    <Button isLoading={isUploading} onClick={() => { window.open(`${siteName}/${doc.streetcutout_img}`) }} color="primary">
+                        ดูหลักฐาน
+                    </Button>
+                    <Button isLoading={isUploading} onClick={clearPayment} color="danger">ลบ</Button>
+                </div>
+            )
+        } else {
+            return (
+                <div>
+                    <Button isLoading={isUploading} color="primary" onClick={openInputFile}>อัพโหลดหลักฐานการชำระเงิน</Button>
+                    <input type="file" id="file" onChange={uploadFile} ref={inputFile} style={{ display: "none" }} />
+
+                </div>
+            )
+        }
+
+
+    }
+
     return (
         <div className="flex flex-col">
             <Breadcrumbs className="mb-3">
@@ -142,6 +226,7 @@ export default function RequeststreetcutouttaxEdit() {
                                 ) : (
                                     <span>ไม่มีรูปตัวอย่างป้าย</span>
                                 )}
+                                <UploadButton doc={createForm} />
                             </div>
                             <div className="flex flex-row lg:w-[50%] text-md mb-3">
                                 สถานที่ตั้งป้าย
@@ -155,17 +240,6 @@ export default function RequeststreetcutouttaxEdit() {
                                     label="ถนน"
                                 />
                             </div>
-                            <div className="grid grid-cols-3 gap-3 mb-3">
-                                <Input
-                                    value={createForm.streetcutout_location?.map((location: { allowed_streetcutoutlocation: any }) => location.allowed_streetcutoutlocation).join(', ') || ''}
-                                    name="streetcutout_location_combined"
-                                    onChange={(e) => updateForm(e.target.name, e.target.value)}
-                                    type="text"
-                                    label="ถนน"
-                                />
-                            </div>
-
-
                             <div className="mt-3 flex flex-row">
                                 <Button type="submit" color="primary" onClick={save}>บันทึก</Button>
                                 <Button type="button" color="default" onClick={() => { navigate("/StreetcutoutRequest") }}>ยกเลิก</Button>

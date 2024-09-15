@@ -158,9 +158,12 @@ def update_attachment():
     requeststreetcutouttaxReq = req['requeststreetcutouttax']
     fileReq = req['fileresponse']
 
-    requeststreetcutouttaxDoc = frappe.get_doc("RequestStreetcutoutTax", requeststreetcutouttaxReq)
+    requeststreetcutouttaxDoc: RequestStreetcutoutTax = frappe.get_doc(
+        requeststreetcutouttaxReq)  # type: ignore
     requeststreetcutouttaxDoc.streetcutout_img = fileReq['file_url']
     requeststreetcutouttaxDoc.save()
 
     return requeststreetcutouttaxDoc
+
+
 
