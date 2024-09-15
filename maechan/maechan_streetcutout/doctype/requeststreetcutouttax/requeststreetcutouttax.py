@@ -3,8 +3,13 @@
 
 # import frappe
 from typing import List
+import qrcode
+import json
+import base64
 import frappe
 import frappe.utils
+from io import BytesIO
+from qrcode.main import QRCode
 from frappe.model.document import Document
 
 
@@ -23,11 +28,13 @@ class RequestStreetcutoutTax(Document):
         cost_requeststreetcutouttax: DF.Data | None
         expiration_date_requeststreetcutouttax: DF.Date | None
         payment_requeststreetcutouttax: DF.AttachImage | None
+        qrpay: DF.LongText | None
         streetcutout_count_requeststreetcutouttax: DF.Data
-        streetcutout_img: DF.Attach
+        streetcutout_img: DF.Attach | None
         streetcutout_location: DF.TableMultiSelect[StreetcutoutLocation]
         streetcutout_size: DF.Literal["120x240 \u0e40\u0e0b\u0e19\u0e15\u0e34\u0e40\u0e21\u0e15\u0e23"]
         user_name_requeststreetcutouttax: DF.Data
+        uuid: DF.Data | None
     # end: auto-generated types
 
     pass
@@ -67,17 +74,42 @@ def load_request_streetcutouttax():
 
     name = request['name']
 
+    # Query เพื่อดึงข้อมูล StreetcutoutLocation และ AllowedStreet
     query = """
-        SELECT *
-        FROM `tabRequestStreetcutoutTax`
-        WHERE name = %(name)s
+        SELECT 
+            loc.name AS location_name,
+            loc.allowed_streetcutoutlocation,
+            allowed.street_allowedstreet_streetcutout
+        FROM `tabStreetcutoutLocation` AS loc
+        LEFT JOIN `tabAllowedStreet` AS allowed ON allowed.name = loc.allowed_streetcutoutlocation
+        WHERE loc.parent = %(name)s
     """
 
-    requestStreetcutoutTaxDoc = frappe.db.sql(query, {
+    streetcutout_locations = frappe.db.sql(query, {
         'name': name
     }, as_dict=True)
 
+    locations_with_streets = []
+    for loc in streetcutout_locations:
+        locations_with_streets.append({
+            'location_name': loc['location_name'],
+            'allowed_streets': loc['street_allowedstreet_streetcutout']
+        })
+
+    request_query = """
+        SELECT * FROM `tabRequestStreetcutoutTax`
+        WHERE name = %(name)s
+    """
+    requestStreetcutoutTaxDoc = frappe.db.sql(request_query, {
+        'name': name
+    }, as_dict=True)
+
+    if not requestStreetcutoutTaxDoc:
+        frappe.throw(f"RequestStreetcutoutTax with name {name} not found")
+
     requestStreetcutoutTaxDoc = requestStreetcutoutTaxDoc[0] 
+    
+    requestStreetcutoutTaxDoc['streetcutout_location'] = locations_with_streets
 
     workflow = get_active_workflow()
 
@@ -89,6 +121,7 @@ def load_request_streetcutouttax():
     frappe.response['workflow'] = workflow
     frappe.response['transition'] = transition
     return requestStreetcutoutTaxDoc
+
 
 
 @frappe.whitelist()
@@ -186,3 +219,49 @@ def deleteAttachment():
 
     return attachmentDoc
 
+def getQrCodeBase64(type, name):
+    qrdict = {
+        "type": type,
+        "name": name
+    }
+
+    qrdict = json.dumps(qrdict)
+
+    qr = QRCode(
+        version=1,
+        error_correction=qrcode.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(qrdict)
+    qr.make(fit=True)
+    img = qr.make_image()
+
+    buffered = BytesIO()
+    img.save(buffered, format="PNG")
+    img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
+    return img_str
+
+
+def getQrCodeBase64WithUUID(type, uuid):
+    qrdict = {
+        "type": type,
+        "uuid": uuid
+    }
+
+    qrdict = json.dumps(qrdict)
+
+    qr = QRCode(
+        version=10,
+        error_correction=qrcode.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    qr.add_data(qrdict)
+    qr.make(fit=True)
+    img = qr.make_image()
+
+    buffered = BytesIO()
+    img.save(buffered, format="PNG")
+    img_str = base64.b64encode(buffered.getvalue()).decode("utf-8")
+    return img_str

@@ -122,7 +122,9 @@ export default function RequeststreetcutouttaxView() {
                         <div className="grid grid-cols-3 gap-3 mb-3">
                             <Input
                                 readOnly
-                                value={createForm.streetcutout_location?.map((location: { allowed_streetcutoutlocation: any }) => location.allowed_streetcutoutlocation).join(', ') || ''}
+                                value={createForm.streetcutout_location?.map((location: any) => 
+                                    location.allowed_streets
+                                ).join(', ') || ''}                                                                                                                                                        
                                 name="streetcutout_location_combined"
                                 onChange={(e) => updateForm(e.target.name, e.target.value)}
                                 type="text"
