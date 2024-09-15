@@ -28,7 +28,7 @@ export default function RequeststreetcutouttaxView() {
             ...createForm,
             [key]: value
         } as IRequestStreetcutout
-        
+
         setCreateForm(createFormValue)
     }
 
@@ -138,6 +138,20 @@ export default function RequeststreetcutouttaxView() {
                         </div>
                     </Skeleton>
                 </Tab>
+                {
+                    createForm.docstatus == 0 && ["ยกเลิก","รอชำระเงิน","ระหว่างการตรวจสอบ", "รออนุมัติ", "อนุมัติ", "หมดอายุ"].indexOf(createForm.approve_status_requeststreetcutouttax) ? (
+                        <Tab key="extra_information" aria-label="การชำระเงิน" title="การชำระเงิน" className="flex flex-col">
+                            <Skeleton isLoaded={!isLoading}>
+                                <div className="flex flex-row lg:w-[50%] text-xl mb-3">
+                                    <Button className="mr-3" onClick={() => { navigate("/StreetcutoutRequest") }} color="default">ย้อนกลับ</Button>
+                                </div>
+                            </Skeleton>
+                        </Tab>
+                    ) : (
+                        <Tab className="hidden"></Tab>
+                    )
+                }
+
             </Tabs>
         </div >
 

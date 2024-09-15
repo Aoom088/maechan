@@ -66,12 +66,22 @@ def load_request_streetcutouttax():
     assert 'name' in request
 
     name = request['name']
-    requestStreetcutoutTaxDoc: RequestStreetcutoutTax = frappe.get_doc(
-        "RequestStreetcutoutTax", name)  # type: ignore
+
+    query = """
+        SELECT *
+        FROM `tabRequestStreetcutoutTax`
+        WHERE name = %(name)s
+    """
+
+    requestStreetcutoutTaxDoc = frappe.db.sql(query, {
+        'name': name
+    }, as_dict=True)
+
+    requestStreetcutoutTaxDoc = requestStreetcutoutTaxDoc[0] 
 
     workflow = get_active_workflow()
 
-    if (workflow):
+    if workflow:
         transition = get_transitions(workflow, requestStreetcutoutTaxDoc)
     else:
         transition = None

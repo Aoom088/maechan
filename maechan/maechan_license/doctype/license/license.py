@@ -187,25 +187,7 @@ class License(Document):
             if reqlicense:
                 self.manage_user = reqlicense.owner
 
-    def _update_qr_code(self):
-        '''
-        ปรับปรุงการทำงาน ตรวจสอบว่า qrcode มีอยู่หรือไม่ ถ้ามีอยู่แล้วไม่ต้องสร้างใหม่ แต่ถ้าไม่มี
-        ให้สร้างใหม่ โดยการใช้ โครงกสร้างใหม่
-        '''
-        if (self.qr_code_base64 is None or self.qr_code_base64 == ""):
 
-            if (self.uuid is None or self.uuid == ""):
-                self.uuid = uuid.uuid4().__str__()
-                self.db_set('uuid', self.uuid)
-                frappe.db.commit()
-
-            qrcode_base64 = 'data: image/png;base64, ' + \
-                getQrCodeBase64WithUUID("License", self.uuid)
-            self.db_set('qr_code_base64', qrcode_base64)
-            frappe.db.commit()
-
-    def on_update(self):
-        self._update_qr_code()
 
     def after_rename(self, old, new, merge=False):
         self.db_set('qr_code_base64', None)
