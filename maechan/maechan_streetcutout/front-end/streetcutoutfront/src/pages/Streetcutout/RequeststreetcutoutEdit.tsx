@@ -17,7 +17,7 @@ export default function RequeststreetcutouttaxEdit() {
 
 
     let [createForm, setCreateForm] = useState({} as IRequestStreetcutout)
-    let [options, setOptions] = useState({} as AllowedStreet)
+    const [options, setOptions] = useState<AllowedStreet[]>([]);
 
     let { call } = useContext(FrappeContext) as FrappeConfig
 
@@ -36,15 +36,15 @@ export default function RequeststreetcutouttaxEdit() {
     const loadOptionStreet = async () => {
         let response = await call.post("maechan.maechan_streetcutout.doctype.allowedstreet.allowedstreet.load_allowedstreet", {
             name: params.id
-        })
+        });
 
-        let optionstreet: AllowedStreet = response.message
+        let optionstreet: AllowedStreet = response.message;
 
-        setOptions(optionstreet)
+        setOptions([optionstreet]);
 
-        return optionstreet
-
+        return [optionstreet];
     }
+
 
     const loadRequestStreetcutoutTax = async () => {
         let response = await call.post("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.load_request_streetcutouttax", {
@@ -61,7 +61,7 @@ export default function RequeststreetcutouttaxEdit() {
 
     useEffect(() => {
         setIsLoading(true)
-        loadOptionStreet().then((optionstreet: AllowedStreet) => {
+        loadOptionStreet().then((optionstreet: AllowedStreet[]) => {
             console.log(optionstreet)
             loadRequestStreetcutoutTax().then((requeststreetcutouttax: IRequestStreetcutout) => {
                 console.log(requeststreetcutouttax)
@@ -133,7 +133,7 @@ export default function RequeststreetcutouttaxEdit() {
                     let fileResponse = response.data.message
                     console.log(response)
                     call.post("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.update_attachment", {
-                        'fileresponse': fileResponse,   
+                        'fileresponse': fileResponse,
                         'requeststreetcutouttax': doc
                     }).then(() => {
                         loadRequestStreetcutoutTax().then(() => setIsLoading(false))
@@ -166,6 +166,9 @@ export default function RequeststreetcutouttaxEdit() {
         }
 
 
+    }
+    const test = () => {
+        console.log(options)
     }
 
     return (
@@ -223,13 +226,21 @@ export default function RequeststreetcutouttaxEdit() {
                                 สถานที่ตั้งป้าย
                             </div>
                             <div className="grid grid-cols-3 gap-3 mb-3">
-                                <Input
-                                    value={createForm.streetcutout_location?.map((location: { allowed_streetcutoutlocation: any }) => location.allowed_streetcutoutlocation).join(', ') || ''}
-                                    name="streetcutout_location_combined"
-                                    onChange={(e) => updateForm(e.target.name, e.target.value)}
-                                    type="text"
+                                <Select
                                     label="ถนน"
-                                />
+                                    placeholder="Select a street"
+                                    selectionMode="multiple"
+                                    className="max-w-xs"
+                                >
+                                    {options.map((option) => (
+                                        <SelectItem
+                                            key={option.name}
+                                        >
+                                            {option.street_allowedstreet_streetcutout}
+                                        </SelectItem>
+                                    ))}
+                                </Select>
+                                <button onClick={test}>AA</button>
                             </div>
                             <div className="mt-3 flex flex-row">
                                 <Button type="submit" color="primary" onClick={save}>บันทึก</Button>

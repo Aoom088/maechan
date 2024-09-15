@@ -219,6 +219,9 @@ def deleteAttachment():
 
     return attachmentDoc
 
+
+from maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax import RequestStreetcutoutTax
+
 def getQrCodeBase64(type, name):
     qrdict = {
         "type": type,

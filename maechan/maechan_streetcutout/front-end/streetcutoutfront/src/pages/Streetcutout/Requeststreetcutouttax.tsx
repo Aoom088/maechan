@@ -4,7 +4,7 @@ import { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal, useCo
 import { FaEdit, FaFileDownload, FaFileImage, FaHome, FaPlus, FaReceipt } from "react-icons/fa"
 import { Link, useNavigate } from "react-router-dom"
 import { Doctype, IRequestStreetcutout } from "../../interfaces"
-import { FaFile, FaFileImport, FaMagnifyingGlass } from "react-icons/fa6"
+import { FaQrcode, FaFile, FaFileImport, FaMagnifyingGlass } from "react-icons/fa6"
 import { useAlertContext } from "../../providers/AlertProvider"
 
 function Requeststreetcutouttax() {
@@ -120,6 +120,20 @@ function Requeststreetcutouttax() {
                                                             ) : (null)
                                                     }
                                                     {
+                                                        ["อนุมัติ"].indexOf(x.approve_status_requeststreetcutouttax) >= 0 ?
+                                                            (
+                                                                <Tooltip placement="top" content="ตรวจสอบQrcode" aria-label="ตรวจสอบQrcode" >
+                                                                    <span
+                                                                        onClick={() => { navigate(`/StreetcutoutRequest/${x.name}/QR`) }}
+                                                                        className="text-lg cursor-pointer active:opacity-50">
+                                                                        <FaQrcode />
+                                                                    </span>
+                                                                </Tooltip>
+                                                            ) : (
+                                                                null
+                                                            )
+                                                    }
+                                                    {
                                                         x.docstatus == 0 && ["สร้าง", "หมดอายุ", "ยกเลิก"].indexOf(x.approve_status_requeststreetcutouttax) >= 0 ?
                                                             (
                                                                 <Tooltip placement="top" content="แก้ไข" aria-label="แก้ไข" >
@@ -139,6 +153,7 @@ function Requeststreetcutouttax() {
                                                                 </Tooltip>
                                                             )
                                                     }
+
                                                 </div>
 
                                             </TableCell>
