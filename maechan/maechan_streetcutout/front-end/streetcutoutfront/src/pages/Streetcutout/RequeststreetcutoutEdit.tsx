@@ -96,9 +96,9 @@ export default function RequeststreetcutouttaxEdit() {
 
         }
 
-        const clearPayment = async () => {
+        const deleteAttachment = async () => {
             setIsUploading(true)
-            call.post("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.clear_payment", {
+            call.post("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.deleteAttachment", {
                 'requeststreetcutouttax': doc
             }).then(() => {
                 loadRequestStreetcutoutTax().then(() => setIsLoading(false))
@@ -152,7 +152,7 @@ export default function RequeststreetcutouttaxEdit() {
                     <Button isLoading={isUploading} onClick={() => { window.open(`${siteName}/${doc.streetcutout_img}`) }} color="primary">
                         ดูหลักฐาน
                     </Button>
-                    <Button isLoading={isUploading} onClick={clearPayment} color="danger">ลบ</Button>
+                    <Button isLoading={isUploading} onClick={deleteAttachment} color="danger">ลบ</Button>
                 </div>
             )
         } else {
@@ -217,15 +217,6 @@ export default function RequeststreetcutouttaxEdit() {
                                     type="select" label="ขนาดของป้าย" />
                             </div>
                             <div className="grid grid-cols-3 gap-3 mb-3">
-                                {createForm.streetcutout_img ? (
-                                    <img
-                                        src={'http://maechandev.chaowdev.xyz:8001/' + createForm.streetcutout_img}
-                                        alt="รูปตัวอย่างป้าย"
-                                        className="w-full h-auto rounded"
-                                    />
-                                ) : (
-                                    <span>ไม่มีรูปตัวอย่างป้าย</span>
-                                )}
                                 <UploadButton doc={createForm} />
                             </div>
                             <div className="flex flex-row lg:w-[50%] text-md mb-3">

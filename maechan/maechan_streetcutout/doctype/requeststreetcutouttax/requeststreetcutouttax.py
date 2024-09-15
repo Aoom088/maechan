@@ -165,5 +165,14 @@ def update_attachment():
 
     return requeststreetcutouttaxDoc
 
+@frappe.whitelist()
+def deleteAttachment():
+    req = frappe.form_dict
+    assert 'requeststreetcutouttax' in req
+    attchmentReq = req['requeststreetcutouttax']
+    attachmentDoc: RequestStreetcutoutTax = frappe.get_doc(attchmentReq)  # type: ignore
+    attachmentDoc.streetcutout_img = ''
+    attachmentDoc.save()
 
+    return attachmentDoc
 
