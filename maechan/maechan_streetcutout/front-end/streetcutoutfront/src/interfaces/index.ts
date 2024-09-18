@@ -141,7 +141,7 @@ export type DashboardData = Doctype & {
 
 export type AllowedStreet = Doctype & {
     street_allowedstreet_streetcutout: string;
-  }
+}
 export type StreetcutoutLocation = Doctype &  {
     allowed_streetcutoutlocation: string | AllowedStreet
 }
@@ -157,6 +157,7 @@ export type IRequestStreetcutout = Doctype & {
     streetcutout_size: string;
     user_name_requeststreetcutouttax: string;
     streetcutout_img:string;
+    qrpay:string;
 }
 
 export type IRequestLicense = Doctype & {
