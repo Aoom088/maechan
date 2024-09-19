@@ -2,7 +2,7 @@ import { BreadcrumbItem, Breadcrumbs, Input, Button, Select, SelectItem, Table, 
 import { useContext, useEffect, useMemo, useState } from "react"
 import { FaHome, FaPlus } from "react-icons/fa"
 import { Link, useNavigate } from "react-router-dom"
-import { IRequestStreetcutout} from "../../interfaces"
+import { IRequestStreetcutout } from "../../interfaces"
 import { useAlertContext } from "../../providers/AlertProvider"
 import { FrappeConfig, FrappeContext } from "frappe-react-sdk"
 
@@ -92,13 +92,12 @@ export default function RequeststreetcutouttaxCreate() {
                     label="จำนวนป้าย"
                 />
 
-
                 <Select
                     label="ขนาดของป้าย"
-                    className="" defaultSelectedKeys={["120x240เซนติเมตร"]}
+                    className="" defaultSelectedKeys={["120x240 เซนติเมตร"]}
                     onSelectionChange={(k) => updateForm('streetcutout_size', Array.from(k)[0])}
                 >
-                    <SelectItem key="ขนาดของป้าย" >120x240เซนติเมตร</SelectItem>
+                    <SelectItem key="120x240 เซนติเมตร">120x240 เซนติเมตร</SelectItem>
                 </Select>
             </div>
             <div className="flex flex-row lg:w-[50%] text-xl mb-3">

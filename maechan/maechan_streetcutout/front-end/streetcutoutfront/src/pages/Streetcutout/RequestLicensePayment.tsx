@@ -21,19 +21,16 @@ export default function RequestLicensePayment() {
 
     const [workflowTransition, setWorkflowTransition] = useState([] as any[])
 
-
-    const loadRequestLicense = async () => {
+    const loadRequestStreetcutoutTax = async () => {
         let response = await call.post("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.load_request_streetcutouttax", {
             name: params.id
         })
+
         let requeststreetcutouttax: IRequestStreetcutout = response.message
 
-       
-
-    
         setCreateForm(requeststreetcutouttax)
         setWorkflowTransition(response.transition)
-        return requeststreetcutouttax ;
+        return requeststreetcutouttax
 
     }
 
@@ -41,7 +38,8 @@ export default function RequestLicensePayment() {
 
     useEffect(() => {
         setIsLoading(true)
-        loadRequestLicense().then(() => {
+        loadRequestStreetcutoutTax().then((requeststreetcutouttax: IRequestStreetcutout) => {
+            console.log(requeststreetcutouttax)
             setIsLoading(false)
 
         })
@@ -90,6 +88,7 @@ export default function RequestLicensePayment() {
     }
 
     const UploadButton = ({ doc }: { doc: IRequestStreetcutout }) => {
+        console.log(doc)
 
         const { file } = useContext(FrappeContext) as FrappeConfig
 
@@ -106,7 +105,7 @@ export default function RequestLicensePayment() {
             call.post("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.clear_payment", {
                 'requeststreetcutouttax': doc
             }).then(() => {
-                loadRequestLicense().then(() => setIsLoading(false))
+                loadRequestStreetcutoutTax().then(() => setIsLoading(false))
             })
         }
 
@@ -141,7 +140,7 @@ export default function RequestLicensePayment() {
                         'fileresponse': fileResponse,   
                         'requeststreetcutouttax': doc
                     }).then(() => {
-                        loadRequestLicense().then(() => setIsLoading(false))
+                        loadRequestStreetcutoutTax().then(() => setIsLoading(false))
                     }).catch(e => alert.showError(JSON.stringify(e)))
                 })
                 .catch(e => console.error(e))
@@ -177,7 +176,7 @@ export default function RequestLicensePayment() {
         <div className="flex flex-col">
             <Breadcrumbs className="mb-3">
                 <BreadcrumbItem><Link to={"/"}><FaHome /></Link></BreadcrumbItem>
-                <BreadcrumbItem><Link to={'/licenseRequest'}>คำร้องขอติดตั้งป้าย</Link></BreadcrumbItem>
+                <BreadcrumbItem><Link to={'/StreetcutoutRequest'}>คำร้องขอติดตั้งป้าย</Link></BreadcrumbItem>
                 <BreadcrumbItem>ชำระเงิน : {params.id}
                 </BreadcrumbItem>
             </Breadcrumbs>

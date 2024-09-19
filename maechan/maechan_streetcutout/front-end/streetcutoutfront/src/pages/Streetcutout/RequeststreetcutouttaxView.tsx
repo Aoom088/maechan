@@ -140,17 +140,42 @@ export default function RequeststreetcutouttaxView() {
                         </div>
                     </Skeleton>
                 </Tab>
-                
+
                 {["ยกเลิก", "รอชำระเงิน", "ระหว่างการตรวจสอบ", "รออนุมัติ", "อนุมัติ", "หมดอายุ"].includes(createForm.approve_status_requeststreetcutouttax) ? (
                     <Tab key="extra_information" aria-label="การชำระเงิน" title="การชำระเงิน" className="flex flex-col">
                         <Skeleton isLoaded={!isLoading}>
+                            <div className="flex flex-row lg:w-[50%] text-md mb-3">
+                                ค่าธรรมเนียม
+                            </div>
+                            <div className="grid grid-cols-3 gap-3 mb-3">
+                                <Input
+                                    readOnly
+                                    value={createForm.cost_requeststreetcutouttax ? createForm.cost_requeststreetcutouttax.toString() : ''}
+                                    name="cost_requeststreetcutouttax"
+                                    onChange={(e) => updateForm(e.target.name, e.target.value)}
+                                    type="text" label="ค่าธรรมเนียม" />
+                            </div>
+                            <div className="flex flex-row lg:w-[50%] text-md mb-3">
+                                รูปหลักฐานการชำระเงิน
+                            </div>
+                            <div className="grid grid-cols-3 gap-3 mb-3">
+                                {createForm.payment_requeststreetcutouttax ? (
+                                    <img
+                                        src={'http://maechandev.chaowdev.xyz:8001/' + createForm.payment_requeststreetcutouttax}
+                                        alt="รูปหลักฐานการชำระเงิน"
+                                        className="w-full h-auto rounded"
+                                    />
+                                ) : (
+                                    <span>ไม่มีรูปหลักฐานการชำระเงิน</span>
+                                )}
+                            </div>
                             <div className="flex flex-row lg:w-[50%] text-xl mb-3">
                                 <Button className="mr-3" onClick={() => { navigate("/StreetcutoutRequest") }} color="default">ย้อนกลับ</Button>
                             </div>
                         </Skeleton>
                     </Tab>
                 ) : null}
-                
+
             </Tabs>
         </div >
 
