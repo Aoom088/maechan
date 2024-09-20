@@ -137,13 +137,13 @@ export type IRequestLicenseType = Doctype & {
 export type DashboardData = Doctype & {
     dashboard_img: string;
 	dashboard_img_link: string;
-  }
+}
 
 export type AllowedStreet = Doctype & {
     street_allowedstreet_streetcutout: string;
 }
 export type StreetcutoutLocation = Doctype &  {
-    allowed_streetcutoutlocation: string | AllowedStreet
+    allowed_streetcutoutlocation: string | AllowedStreet[]
 }
 
 export type IRequestStreetcutout = Doctype & {
@@ -153,7 +153,9 @@ export type IRequestStreetcutout = Doctype & {
     expiration_date_requeststreetcutouttax: Date;
     payment_requeststreetcutouttax: string;
     streetcutout_count_requeststreetcutouttax: string | number;
-    streetcutout_location:Array<{ allowed_streetcutoutlocation: string }>;
+    streetcutout_location:Array<{
+        street_allowedstreet_name: any; allowed_streetcutoutlocation: string 
+}>;
     streetcutout_size: string;
     user_name_requeststreetcutouttax: string;
     streetcutout_img:string;

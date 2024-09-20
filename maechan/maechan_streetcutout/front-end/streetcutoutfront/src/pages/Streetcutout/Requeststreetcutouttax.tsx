@@ -124,7 +124,7 @@ function Requeststreetcutouttax() {
                                                             (
                                                                 <Tooltip placement="top" content="ตรวจสอบQrcode" aria-label="ตรวจสอบQrcode" >
                                                                     <span
-                                                                        onClick={() => { navigate(`/StreetcutoutRequest/${x.name}/QR`) }}
+                                                                        onClick={() => { navigate(`/StreetcutoutRequest/${x.name}/qr`) }}
                                                                         className="text-lg cursor-pointer active:opacity-50">
                                                                         <FaQrcode />
                                                                     </span>

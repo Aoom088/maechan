@@ -123,7 +123,7 @@ export default function RequeststreetcutouttaxView() {
                             <Input
                                 readOnly
                                 value={createForm.streetcutout_location?.map((location: any) =>
-                                    location.allowed_streets
+                                    location.street_allowedstreet
                                 ).join(', ') || ''}
                                 name="streetcutout_location_combined"
                                 onChange={(e) => updateForm(e.target.name, e.target.value)}

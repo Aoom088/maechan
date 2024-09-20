@@ -2,11 +2,12 @@ import { BreadcrumbItem, Breadcrumbs, Input, Button, Select, SelectItem, Table, 
 import { Key, PropsWithChildren, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { FaHome, FaPlus } from "react-icons/fa"
 import { Link, useNavigate, useParams } from "react-router-dom"
-import { IRequestStreetcutout, AllowedStreet } from "../../interfaces"
+import { IRequestStreetcutout, StreetcutoutLocation, AllowedStreet } from "../../interfaces"
 import { FrappeConfig, FrappeContext } from "frappe-react-sdk"
 import { useAlertContext } from "../../providers/AlertProvider"
 import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
 import { FaDownload, FaMagnifyingGlass, FaTrash, FaUpload } from "react-icons/fa6"
+import React from "react"
 
 
 export default function RequeststreetcutouttaxEdit() {
@@ -17,7 +18,11 @@ export default function RequeststreetcutouttaxEdit() {
 
 
     let [createForm, setCreateForm] = useState({} as IRequestStreetcutout)
-    const [options, setOptions] = useState<AllowedStreet[]>([]);
+    const [options, setOptions] = useState<StreetcutoutLocation[]>([]);
+    const [locations, setLocations] = useState<StreetcutoutLocation[]>([]);
+    const [startselectedValues, setStartselectedValues] = useState<string[]>([]);
+    const [selectedValues, setSelectedValues] = React.useState(new Set(startselectedValues));
+
 
     let { call } = useContext(FrappeContext) as FrappeConfig
 
@@ -38,13 +43,22 @@ export default function RequeststreetcutouttaxEdit() {
             name: params.id
         });
 
-        let optionstreet: AllowedStreet = response.message;
+        let optionstreet: StreetcutoutLocation[] = response.message.data;
 
-        setOptions([optionstreet]);
+        setOptions(optionstreet);
 
-        return [optionstreet];
+        return optionstreet;
     }
+    const loadStreetcutoutLocation = async () => {
+        let response = await call.post("maechan.maechan_streetcutout.doctype.streetcutoutlocation.streetcutoutlocation.load_streetcutoutLocation", {
+            parent: params.id
+        });
 
+        let locations: StreetcutoutLocation[] = response.message.data;
+        setLocations(locations)
+
+        return locations;
+    }
 
     const loadRequestStreetcutoutTax = async () => {
         let response = await call.post("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.load_request_streetcutouttax", {
@@ -60,29 +74,56 @@ export default function RequeststreetcutouttaxEdit() {
     }
 
     useEffect(() => {
-        setIsLoading(true)
-        loadOptionStreet().then((optionstreet: AllowedStreet[]) => {
-            console.log(optionstreet)
+        setIsLoading(true);
+
+        loadOptionStreet().then((optionstreet: StreetcutoutLocation[]) => {
+            console.log(optionstreet);
+
             loadRequestStreetcutoutTax().then((requeststreetcutouttax: IRequestStreetcutout) => {
-                console.log(requeststreetcutouttax)
-                setIsLoading(false)
-            })
-        })
-    }, [])
+                console.log(requeststreetcutouttax);
+                const selectedStreets = requeststreetcutouttax.streetcutout_location.map(loc => loc.street_allowedstreet_name || '');
+                setStartselectedValues(selectedStreets);
+                setSelectedValues(selectedStreets); // ตั้งค่า selectedValues ให้ตรงกับ selectedStreets
+
+                console.log('start Selected Streets:', selectedStreets);
+
+                loadStreetcutoutLocation().then((locations: StreetcutoutLocation[]) => {
+                    console.log(locations);
+                    setIsLoading(false);
+                });
+            });
+        });
+    }, []);
 
     const save = async (e: { preventDefault: () => void; }) => {
-        setIsLoading(true)
-        e.preventDefault()
-        console.log(createForm)
-        let result = await call.post("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.first_step_requeststreetcutouttax", {
-            'request': createForm
-        })
+        setIsLoading(true);
+        console.log('selectedValues :', Array.from(selectedValues));
+        e.preventDefault();
 
-        setCreateForm(result.message)
-        console.log(result.message)
-        setIsLoading(false)
+        console.log(createForm);
+        try {
+            let result = await call.post("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.first_step_requeststreetcutouttax", {
+                'request': createForm
+            });
 
+            setCreateForm(result.message);
+            console.log(result.message);
+
+            let updateResult = await call.post("maechan.maechan_streetcutout.doctype.streetcutoutlocation.streetcutoutlocation.update_streetcutoutLocation", {
+                'parent': params.id,
+                'request': Array.from(selectedValues)
+            });
+
+            console.log(updateResult.message);
+
+        } catch (error) {
+            console.error("Error occurred:", error);
+        } finally {
+            setIsLoading(false);
+        }
     }
+
+
 
     const UploadButton = ({ doc }: { doc: IRequestStreetcutout }) => {
 
@@ -167,9 +208,6 @@ export default function RequeststreetcutouttaxEdit() {
 
 
     }
-    const test = () => {
-        console.log(options)
-    }
 
     return (
         <div className="flex flex-col">
@@ -199,25 +237,30 @@ export default function RequeststreetcutouttaxEdit() {
                                     value={createForm.user_name_requeststreetcutouttax}
                                     name="user_name_requeststreetcutouttax"
                                     onChange={(e) => updateForm(e.target.name, e.target.value)}
-                                    type="text" label="ชื่อ-สกุล" />
+                                    type="text" label="ชื่อเจ้าของป้าย" />
                             </div>
-
                             <div className="flex flex-row lg:w-[50%] text-md mb-3">
                                 ข้อมูลป้าย
                             </div>
                             <div className="grid grid-cols-3 gap-3 mb-3">
                                 <Input
-                                    value={createForm.streetcutout_count_requeststreetcutouttax ? createForm.streetcutout_count_requeststreetcutouttax.toString() : ''}
+                                    value={createForm.streetcutout_count_requeststreetcutouttax}
                                     name="streetcutout_count_requeststreetcutouttax"
-                                    onChange={(e) => updateForm(e.target.name, e.target.value)}
-                                    type="number" label="จำนวนป้าย" />
+                                    onChange={(e) => updateForm(e.target.name, Number(e.target.value))}
+                                    type="number"
+                                    min="1"
+                                    step="1"
+                                    label="จำนวนป้าย"
+                                />
                             </div>
                             <div className="grid grid-cols-3 gap-3 mb-3">
-                                <Input
-                                    value={createForm.streetcutout_size}
-                                    name="streetcutout_size"
-                                    onChange={(e) => updateForm(e.target.name, e.target.value)}
-                                    type="select" label="ขนาดของป้าย" />
+                                <Select
+                                    label="ขนาดของป้าย"
+                                    className="" defaultSelectedKeys={["120x240 เซนติเมตร"]}
+                                    onSelectionChange={(k) => updateForm('streetcutout_size', Array.from(k)[0])}
+                                >
+                                    <SelectItem key="120x240 เซนติเมตร">120x240 เซนติเมตร</SelectItem>
+                                </Select>
                             </div>
                             <div className="grid grid-cols-3 gap-3 mb-3">
                                 <UploadButton doc={createForm} />
@@ -230,17 +273,16 @@ export default function RequeststreetcutouttaxEdit() {
                                     label="ถนน"
                                     placeholder="Select a street"
                                     selectionMode="multiple"
+                                    selectedKeys={selectedValues}
+                                    onSelectionChange={setSelectedValues}
                                     className="max-w-xs"
                                 >
-                                    {options.map((option) => (
-                                        <SelectItem
-                                            key={option.name}
-                                        >
+                                    {options.map((option: any) => (
+                                        <SelectItem key={option.name} value={option.street_allowedstreet_streetcutout}>
                                             {option.street_allowedstreet_streetcutout}
                                         </SelectItem>
                                     ))}
                                 </Select>
-                                <button onClick={test}>AA</button>
                             </div>
                             <div className="mt-3 flex flex-row">
                                 <Button type="submit" color="primary" onClick={save}>บันทึก</Button>
