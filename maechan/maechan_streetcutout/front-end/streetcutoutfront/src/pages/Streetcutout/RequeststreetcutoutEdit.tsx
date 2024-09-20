@@ -39,7 +39,7 @@ export default function RequeststreetcutouttaxEdit() {
     }
 
     const loadOptionStreet = async () => {
-        let response = await call.post("maechan.maechan_streetcutout.doctype.allowedstreet.allowedstreet.load_allowedstreet", {
+        let response = await call.get("maechan.maechan_streetcutout.doctype.allowedstreet.allowedstreet.load_allowedstreet", {
             name: params.id
         });
 
@@ -50,7 +50,7 @@ export default function RequeststreetcutouttaxEdit() {
         return optionstreet;
     }
     const loadStreetcutoutLocation = async () => {
-        let response = await call.post("maechan.maechan_streetcutout.doctype.streetcutoutlocation.streetcutoutlocation.load_streetcutoutLocation", {
+        let response = await call.get("maechan.maechan_streetcutout.doctype.streetcutoutlocation.streetcutoutlocation.load_streetcutoutLocation", {
             parent: params.id
         });
 
@@ -61,7 +61,7 @@ export default function RequeststreetcutouttaxEdit() {
     }
 
     const loadRequestStreetcutoutTax = async () => {
-        let response = await call.post("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.load_request_streetcutouttax", {
+        let response = await call.get("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.load_request_streetcutouttax", {
             name: params.id
         })
 

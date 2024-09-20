@@ -250,16 +250,19 @@ def update_payment():
     fileReq = req['fileresponse']
 
     # ตรวจสอบว่ามี doctype อยู่ใน requestLicenseReq หรือไม่
-    if 'doctype' not in requestLicenseReq:
-        requestLicenseReq['doctype'] = 'RequestStreetcutoutTax'
+    doctype = requestLicenseReq.get('doctype', 'RequestStreetcutoutTax')
 
-    requestLicenseDoc: RequestStreetcutoutTax = frappe.get_doc(
-        requestLicenseReq)
+    # ดึงเอกสาร RequestStreetcutoutTax
+    requestLicenseDoc: RequestStreetcutoutTax = frappe.get_doc({
+        'doctype': doctype,
+        'name': requestLicenseReq.get('name')
+    })  # type: ignore
 
-    requestLicenseDoc.payment_requeststreetcutouttax = fileReq['file_url']
-    requestLicenseDoc.save()
+    # อัปเดตฟิลด์ payment_requeststreetcutouttax โดยตรงในฐานข้อมูลโดยไม่บันทึกทั้งเอกสาร
+    requestLicenseDoc.db_set('payment_requeststreetcutouttax', fileReq['file_url'], update_modified=False)
 
     return requestLicenseDoc
+
 
 
 @frappe.whitelist()
@@ -270,15 +273,19 @@ def clear_payment():
     requestLicenseReq = req['requeststreetcutouttax']
 
     # ตรวจสอบและเพิ่มคีย์ 'doctype' หากไม่มีใน requestLicenseReq
-    if 'doctype' not in requestLicenseReq:
-        requestLicenseReq['doctype'] = 'RequestStreetcutoutTax'
+    doctype = requestLicenseReq.get('doctype', 'RequestStreetcutoutTax')
 
-    requestLicenseDoc: RequestStreetcutoutTax = frappe.get_doc(
-        requestLicenseReq)  # type: ignore
-    requestLicenseDoc.payment_requeststreetcutouttax = None
-    requestLicenseDoc.save()
+    # ดึงเอกสาร RequestStreetcutoutTax
+    requestLicenseDoc: RequestStreetcutoutTax = frappe.get_doc({
+        'doctype': doctype,
+        'name': requestLicenseReq.get('name')
+    })  # type: ignore
+
+    # ลบค่าในฟิลด์ payment_requeststreetcutouttax โดยตรงในฐานข้อมูลโดยไม่บันทึกเอกสารทั้งหมด
+    requestLicenseDoc.db_set('payment_requeststreetcutouttax', None, update_modified=False)
 
     return requestLicenseDoc
+
 
 
 @frappe.whitelist()
@@ -286,18 +293,24 @@ def update_attachment():
     req = frappe.form_dict
     assert 'requeststreetcutouttax' in req
     assert 'fileresponse' in req
+    
     requeststreetcutouttaxReq = req['requeststreetcutouttax']
     fileReq = req['fileresponse']
 
-    if 'doctype' not in requeststreetcutouttaxReq:
-        requeststreetcutouttaxReq['doctype'] = 'RequestStreetcutoutTax'
+    # ตรวจสอบว่า doctype ถูกกำหนดหรือไม่
+    doctype = requeststreetcutouttaxReq.get('doctype', 'RequestStreetcutoutTax')
 
-    requeststreetcutouttaxDoc: RequestStreetcutoutTax = frappe.get_doc(
-        requeststreetcutouttaxReq)  # type: ignore
-    requeststreetcutouttaxDoc.streetcutout_img = fileReq['file_url']
-    requeststreetcutouttaxDoc.save()
+    # ดึงเอกสาร RequestStreetcutoutTax
+    requeststreetcutouttaxDoc: RequestStreetcutoutTax = frappe.get_doc({
+        'doctype': doctype,
+        'name': requeststreetcutouttaxReq.get('name')
+    })  # type: ignore
+
+    # อัปเดตฟิลด์ streetcutout_img โดยตรงในฐานข้อมูลโดยไม่บันทึกเอกสารทั้งหมด
+    requeststreetcutouttaxDoc.db_set('streetcutout_img', fileReq['file_url'], update_modified=False)
 
     return requeststreetcutouttaxDoc
+
 
 
 @frappe.whitelist()
@@ -306,12 +319,17 @@ def deleteAttachment():
     assert 'requeststreetcutouttax' in req
     attchmentReq = req['requeststreetcutouttax']
 
-    if 'doctype' not in attchmentReq:
-        attchmentReq['doctype'] = 'RequestStreetcutoutTax'
+    # ตรวจสอบว่า doctype ถูกกำหนดหรือไม่
+    doctype = attchmentReq.get('doctype', 'RequestStreetcutoutTax')
 
-    attachmentDoc: RequestStreetcutoutTax = frappe.get_doc(
-        attchmentReq)  # type: ignore
-    attachmentDoc.streetcutout_img = ''
-    attachmentDoc.save()
+    # ดึงเอกสาร RequestStreetcutoutTax
+    attachmentDoc: RequestStreetcutoutTax = frappe.get_doc({
+        'doctype': doctype,
+        'name': attchmentReq.get('name')
+    })  # type: ignore
+
+    # ลบค่าในฟิลด์ streetcutout_img โดยตรงในฐานข้อมูลโดยไม่บันทึกเอกสารทั้งหมด
+    attachmentDoc.db_set('streetcutout_img', '', update_modified=False)
 
     return attachmentDoc
+

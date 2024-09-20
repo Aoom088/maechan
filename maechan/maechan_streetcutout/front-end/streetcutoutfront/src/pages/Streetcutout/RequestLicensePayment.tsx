@@ -2,7 +2,7 @@ import { BreadcrumbItem, Breadcrumbs, Button, CardBody, Card, CardFooter } from 
 import { useContext, useEffect, useRef, useState } from "react"
 import { FaHome } from "react-icons/fa"
 import { Link, useNavigate, useParams } from "react-router-dom"
-import { ILicenseType, IRequestStreetcutout } from "../../interfaces"
+import { IRequestStreetcutout } from "../../interfaces"
 import { FrappeConfig, FrappeContext } from "frappe-react-sdk"
 import { useAlertContext } from "../../providers/AlertProvider"
 import { Tabs, Tab } from "@nextui-org/react";
@@ -22,7 +22,7 @@ export default function RequestLicensePayment() {
     const [workflowTransition, setWorkflowTransition] = useState([] as any[])
 
     const loadRequestStreetcutoutTax = async () => {
-        let response = await call.post("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.load_request_streetcutouttax", {
+        let response = await call.get("maechan.maechan_streetcutout.doctype.requeststreetcutouttax.requeststreetcutouttax.load_request_streetcutouttax", {
             name: params.id
         })
 
@@ -45,47 +45,6 @@ export default function RequestLicensePayment() {
         })
 
     }, [])
-
-
-    const workFlowActionButton = () => {
-        let currentState = workflowTransition.find(w => w.state == createForm.approve_status_requeststreetcutouttax)
-        console.log("XXX", createForm.approve_status_requeststreetcutouttax)
-        if (currentState) {
-            return (
-                <Button onClick={() => submitDoc(currentState.action)} type="button" color="secondary">{currentState.action}</Button>
-            )
-        }
-        else {
-            return null
-        }
-    }
-
-    const validate = () => {
-
-        if (createForm.payment_requeststreetcutouttax) {
-            return true
-        }
-
-        alert.showError("กรุณาอัพโหลดหลักฐานการชำระเงิน")
-
-        return false
-    }
-
-
-    const submitDoc = async (action: string) => {
-        if (validate()) {
-            call.post(`maechan.maechan_license.doctype.requestlicense.requestlicense.citizen_submit`, {
-                name: createForm.name,
-                state: createForm.approve_status_requeststreetcutouttax,
-                action: action
-            }).then(() => {
-                navigate("/licenseRequest")
-            }).catch(err => {
-                alert.showError(JSON.stringify(err))
-            })
-        }
-
-    }
 
     const UploadButton = ({ doc }: { doc: IRequestStreetcutout }) => {
         console.log(doc)
@@ -184,9 +143,6 @@ export default function RequestLicensePayment() {
 
             <div className="flex flex-row text-xl mb-3 justify-between">
                 <div>คำร้องขอติดตั้งป้าย : {params.id}</div>
-                <div>
-                    {workFlowActionButton()}
-                </div>
             </div>
 
             <Tabs aria-label="Tabs" isDisabled={isLoading}>
